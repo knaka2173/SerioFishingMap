@@ -1,0 +1,1 @@
+dynamodb-admin --dynamo-endpoint=http://localhost:8000

@@ -1,0 +1,12 @@
+■以下2つを選択して使用する
+①dynamodb-admin
+　・nodeかdockerで動作
+　　・nodeの場合の起動方法
+　　　・dynamodb-admin/node/install.cmdを実行（初回のみ）
+　　　・dynamodb-admin-start.cmdを実行
+　　・dockerの場合の起動方法
+　　　・dynamodb-admin/docker/docker-compose.ymlを実行（docker compose up -d)
+      ・http://localhost:8001/にアクセス
+②NoSQL_Workbench
+　・EXEファイルで動作（GitHubにアップできないのでダウンロード）
+　　・https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/workbench.settingup.html
