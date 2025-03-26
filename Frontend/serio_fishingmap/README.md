@@ -67,4 +67,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Tips
 
-※Tipsができたら追加
+### eslint Config Inspector
+
+以下のコマンドで起動
+
+```bash
+npx eslint --inspect-config
+```
