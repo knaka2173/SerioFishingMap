@@ -65,6 +65,29 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - utils
   - アプリケーション全体で共通して使用するユーティリティ関数
 
+#### features配下の例
+
+├── common
+│   └── editors
+│       ├── api
+│       │   └── editorsApi.tsx
+│       ├── components
+│       │   ├── CodeEditor.tsx
+│       │   └── RichTextEditor.tsx
+│       ├── hooks
+│       │   └── hooks.tsx
+│       ├── styles
+│       │   └── editorsStyle.tsx
+│       ├── types
+│       │   └── editorType.tsx
+│       ├── atom
+│       │   └── editorAtom.tsx
+│       └── providerやcontextなど必要に応じて追加
+│           └── .tsx
+└── routes
+    └── profile
+        ...
+
 ## Tips
 
 ### eslint Config Inspector
