@@ -1,5 +1,5 @@
 export default config = {
-  plugins: ['prettier-plugin-tailwindcss'],
+  plugins: [''],
   semi: true,
   singleQuote: true,
   trailingComma: 'all',
