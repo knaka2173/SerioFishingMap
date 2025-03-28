@@ -34,7 +34,7 @@ export default function RootLayout({
         {children}
       </body>
       <footer className={styles.footer}>
-      <p>© 2025 Serio Fishing Map</p>
+        <p>© 2025 Serio Fishing Map</p>
       </footer>
     </html>
   );

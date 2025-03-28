@@ -1,9 +1,0 @@
-export default config = {
-  plugins: [''],
-  semi: true,
-  singleQuote: true,
-  trailingComma: 'all',
-  tabWidth: 2,
-  printWidth: 100,
-  endOfLine: 'lf',
-};

@@ -20,7 +20,7 @@ const Button: FC<ButtonProps> = ({
         styles.button,
         styles[size],
         styles[visual],
-        className
+        className,
       )}
       {...props}
     >

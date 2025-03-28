@@ -1,4 +1,3 @@
-
 ## 開発の始め方
 
 初回起動時は以下ライブラリをインストールしてください
@@ -68,25 +67,25 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 #### features配下の例
 
 ├── common
-│   └── editors
-│       ├── api
-│       │   └── editorsApi.tsx
-│       ├── components
-│       │   ├── CodeEditor.tsx
-│       │   └── RichTextEditor.tsx
-│       ├── hooks
-│       │   └── hooks.tsx
-│       ├── styles
-│       │   └── editorsStyle.tsx
-│       ├── types
-│       │   └── editorType.tsx
-│       ├── atom
-│       │   └── editorAtom.tsx
-│       └── providerやcontextなど必要に応じて追加
-│           └── .tsx
+│ └── editors
+│ ├── api
+│ │ └── editorsApi.tsx
+│ ├── components
+│ │ ├── CodeEditor.tsx
+│ │ └── RichTextEditor.tsx
+│ ├── hooks
+│ │ └── hooks.tsx
+│ ├── styles
+│ │ └── editorsStyle.tsx
+│ ├── types
+│ │ └── editorType.tsx
+│ ├── atom
+│ │ └── editorAtom.tsx
+│ └── providerやcontextなど必要に応じて追加
+│ └── .tsx
 └── routes
-    └── profile
-        ...
+└── profile
+...
 
 ## Tips
 
