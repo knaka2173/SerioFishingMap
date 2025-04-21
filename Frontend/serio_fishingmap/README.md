@@ -96,3 +96,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ```bash
 npx eslint --inspect-config
 ```
+
+## chakra
+このプロジェクトで使用しているchakraはv3で最初動かしていた。
+だが、v2が安定番、v3はark-chakraベースの新設計らしい
+chatGPTのお言葉
+あなたが現在使っている @chakra-ui/react@3.0.0 は、**実は Chakra UI の公式が出している “次世代 UI システム” 向けの完全別物（＝ark-chakraベースの新設計）**です。
+
+つまり：
+
+@chakra-ui/react というパッケージ名は同じでも、v3.0.0〜3.16.x はまったく別の構造になっています。
