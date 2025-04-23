@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+import { Providers  } from "./providers";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -23,16 +25,18 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="ja">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <Providers >
         <AppHeader />
         {children}
         <footer className={styles.footer}>
           <p>© 2025 Serio Fishing Map</p>
         </footer>
+        </Providers >
       </body>
     </html>
   );
