@@ -1,14 +1,14 @@
-import { FiHome, FiUser, FiSettings } from "react-icons/fi";
-import { IconType } from "react-icons";
+// sidebar.data.ts
+// IconType や FiHome などの直接インポートは不要になります
 
-export type SidebarItem = {
+export type SidebarItemData = {
   label: string;
-  icon: IconType;
+  iconName: string; // アイコンコンポーネント名 (例: "FiHome")
   href: string;
 };
 
-export const sidebarItems: SidebarItem[] = [
-  { label: "ホーム", icon: FiHome, href: "/home" },
-  { label: "ユーザー", icon: FiUser, href: "/users" },
-  { label: "設定", icon: FiSettings, href: "/settings" },
+export const sidebarItemsData: SidebarItemData[] = [
+  { label: "ホーム", iconName: "FiHome", href: "/home" },
+  { label: "ユーザー", iconName: "FiUser", href: "/users" },
+  { label: "設定", iconName: "FiSettings", href: "/settings" },
 ];
