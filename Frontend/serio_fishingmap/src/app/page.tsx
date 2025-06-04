@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components/elements/sidebar/sidebar";
+import { Sidebar } from "@/components/elements/Sidebar/sidebar";
 import { Heading, Text } from "@chakra-ui/react";
 
 export default function Home() {
