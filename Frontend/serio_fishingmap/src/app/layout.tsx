@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Providers  } from "./providers";
+import { Providers } from "./providers";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -30,13 +30,13 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-      <Providers >
-        <AppHeader />
-        {children}
-        <footer className={styles.footer}>
-          <p>© 2025 Serio Fishing Map</p>
-        </footer>
-        </Providers >
+        <Providers>
+          <AppHeader />
+          {children}
+          <footer className={styles.footer}>
+            <p>© 2025 Serio Fishing Map</p>
+          </footer>
+        </Providers>
       </body>
     </html>
   );
