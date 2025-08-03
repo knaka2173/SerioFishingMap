@@ -1,34 +1,3 @@
-/**
- * usage
- */
-// useEffect(() => {
-//   const fetchImageBlob = async () => {
-//     const res = await fetch("/api/image?id=123"); // バイナリ画像を返すエンドポイント
-//     const blob = await res.blob();
-//     const objectUrl = URL.createObjectURL(blob); // ブラウザ上で Blob や File を一時的なURLに変換する
-//     setImageObjectUrl(objectUrl);
-//   };
-
-//   fetchImageBlob();
-
-//   // クリーンアップ：URL解放
-//   return () => {
-//     if (imageObjectUrl) {
-//       URL.revokeObjectURL(imageObjectUrl); //ブラウザリソース節約のため、開放
-//     }
-//   };
-// }, []);
-
-// if (!imageObjectUrl) return <p>Loading...</p>;
-
-// return (
-//   <CustomCard
-//     title="DB画像のカード"
-//     description="画像はBlobから作成されています"
-//     imageObjectUrl={imageObjectUrl}
-//   />
-// );
-
 import {
   Card,
   CardHeader,
