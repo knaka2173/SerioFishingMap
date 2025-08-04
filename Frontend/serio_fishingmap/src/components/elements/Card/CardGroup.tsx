@@ -12,7 +12,6 @@ type CardItem = {
 
 type CustomCardGroupProps = {
   items: CardItem[];
-  columns?: number[]; // オプション：レスポンシブ対応
 };
 
 export const CustomCardGroup = ({ items }: CustomCardGroupProps) => {
