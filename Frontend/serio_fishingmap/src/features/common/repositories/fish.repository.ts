@@ -1,7 +1,7 @@
 import { ScanCommand, PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 import { ddbDocClient } from "@/lib/dynamodb";
 import { randomUUID } from "crypto";
-import { FishRecord, CreateFishRecordDTO } from "../domain-model/fish.types"; // 分離した型定義をインポート
+import { FishRecord, CreateFishRecordDTO } from "../../../types/fish-record-dto"; // 分離した型定義をインポート
 
 const TABLE_NAME = process.env.DYNAMODB_FISH_TABLE_NAME;
 

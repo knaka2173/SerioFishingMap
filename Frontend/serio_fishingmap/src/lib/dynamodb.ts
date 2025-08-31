@@ -13,7 +13,7 @@ if (isLocal) {
     endpoint: 'http://localhost:8000',
     region: 'local-env', // ローカル用のダミーリージョン
     credentials: {
-      accessKeyId: 'fakeMyKeyId', // ローカル用のダミーキー
+      accessKeyId: 'fakeMyKeyId', // TODO: のちに設定するため、今はローカル用のダミーアクセスキーを設定している。
       secretAccessKey: 'fakeSecretAccessKey', // ローカル用のダミーシークレット
     },
   };
