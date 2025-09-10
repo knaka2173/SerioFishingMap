@@ -7,7 +7,7 @@ const TABLE_NAME = process.env.DYNAMODB_FISH_TABLE_NAME;
 
 class FishRepository {
   /**
-   * すべての魚情報を取得する
+   * すべての釣果記録を取得する
    */
   async getAll(): Promise<FishRecord[]> {
     const command = new ScanCommand({ TableName: TABLE_NAME });
@@ -16,7 +16,7 @@ class FishRepository {
   }
 
   /**
-   * IDで単一の魚情報を取得する
+   * IDで単一の釣果記録を取得する
    */
   async getById(id: string): Promise<FishRecord | undefined> {
     const command = new GetCommand({
@@ -28,7 +28,7 @@ class FishRepository {
   }
 
   /**
-   * 新しい魚情報を作成する
+   * 新しい釣果記録を作成する
    */
   async create(recordData: CreateFishRecordDTO): Promise<FishRecord> {
     const newItem: FishRecord = {
