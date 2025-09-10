@@ -3,6 +3,7 @@ export interface FishRecord {
   id: string;
   name: string;
   details?: string;// 自由入力
+  createdAt: string; 
 }
 
 // 新規作成時にAPIが受け取るデータの型
