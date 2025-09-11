@@ -1,7 +1,7 @@
 // src/app/api/FishAllViews/route.ts
 
 import { NextResponse } from "next/server";
-import { getAllFishRecords, createFishRecord, CreateFishRecordDTO } from "@/services/fishService";
+import { createFishRecord, createFishRecordDTO } from "@/features/common/repositories/fish.repository";
 
 /**
  * POST /api/FishAllViews
@@ -9,7 +9,7 @@ import { getAllFishRecords, createFishRecord, CreateFishRecordDTO } from "@/serv
  */
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as CreateFishRecordDTO;
+    const body = (await request.json()) as createFishRecordDTO;
 
     // 簡単なバリデーション
     if (!body.fishName || !body.locationName || !body.caughtDate) {

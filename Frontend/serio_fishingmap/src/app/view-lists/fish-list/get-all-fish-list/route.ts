@@ -2,6 +2,7 @@
 
 import { NextResponse } from "next/server";
 import { fishRepository } from "@/features/common/repositories/fish.repository";
+
 /**
  * GET /api/FishAllViews
  * すべての釣果記録を取得するAPI
