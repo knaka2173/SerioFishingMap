@@ -1,6 +1,8 @@
 "use client";
-import { Sidebar } from "@/components/elements/Sidebar/sidebar";
 import { useRouter } from "next/navigation";
+import CalendarButton from "@/components/elements/calendar/calendar";
+import DatePickerButton from "@/components/elements/calendar/datepicker";
+import { Sidebar } from "@/components/elements/Sidebar/sidebar";
 
 export default function Home() {
   const router = useRouter();
@@ -13,6 +15,9 @@ export default function Home() {
     <span>
       {/* 画面遷移の方法の標準については別途検討。ここではテストコードとして実装 */}
       <button onClick={handleClickFishList}>魚一覧へ</button>
+
+      <DatePickerButton></DatePickerButton>
+      <CalendarButton></CalendarButton>
 
       <Sidebar></Sidebar>
       {/* TODO:Sidebarコンポーネントの修正

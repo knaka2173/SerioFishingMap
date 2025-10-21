@@ -22,6 +22,7 @@
     "@typescript-eslint/eslint-plugin": "^8.28.0",
     "@typescript-eslint/parser": "^8.28.0",
     "classnames": "^2.5.1",
+    "date-fns": "^4.1.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-react": "^7.37.4",
@@ -30,6 +31,8 @@
     "framer-motion": "^12.7.4",
     "next": "15.0.3",
     "react": "^18.2.0",
+    "react-calendar": "^6.0.0",
+    "react-datepicker": "^8.8.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0"
   },
