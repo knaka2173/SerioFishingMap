@@ -1,6 +1,6 @@
 "use client";
-import { Sidebar } from "@/components/elements/Sidebar/sidebar";
 import { useRouter } from "next/navigation";
+import { Sidebar } from "@/components/elements/Sidebar/sidebar";
 
 export default function Home() {
   const router = useRouter();
