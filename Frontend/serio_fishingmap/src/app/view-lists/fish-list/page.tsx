@@ -1,10 +1,10 @@
 "use client";
-import { CustomCardGroup } from "@/components/elements/Card/CardGroup";
-import { Label } from "@/components/elements/Label/Label";
-import { FilterChipGroup } from "@/components/elements/filter-chip/FilterChipGroup";
 import { useEffect, useState } from "react";
+import { CustomCardGroup } from "@/components/elements/Card/CardGroup";
+import { FilterChipGroup } from "@/components/elements/filter-chip/FilterChipGroup";
+import { Label } from "@/components/elements/Label/Label";
 
-// TODO:テストデータ
+// TODO:テストデータa
 const cardData = [
   {
     id: 1,
@@ -59,8 +59,12 @@ export default function FishListPage() {
     async function fetchData() {
       await fetch("/api/testApi")
         .then((response) => response.json())
-        .then((data) => setData(data))
-        .catch((error) => console.error("Error fetching data;", error));
+        .then((data) => {
+          setData(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data;", error);
+        });
     }
 
     fetchData();
@@ -76,7 +80,9 @@ export default function FishListPage() {
       <FilterChipGroup
         options={["React", "Next.js", "Chakra UI", "TypeScript"]}
         defaultSelected={["React"]}
-        onChange={(selected) => console.log("選択されたタグ:", selected)}
+        onChange={(selected) => {
+          console.log("選択されたタグ:", selected);
+        }}
       />
       <CustomCardGroup items={cards} />
     </div>
