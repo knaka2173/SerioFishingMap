@@ -1,4 +1,4 @@
-import Button from "@/components/elements/button/button";
+/*import Button from "@/components/elements/button/button";
 
 export default function FormPage() {
   return (
@@ -9,3 +9,4 @@ export default function FormPage() {
     </div>
   );
 }
+*/
