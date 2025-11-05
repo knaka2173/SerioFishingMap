@@ -3,7 +3,7 @@ import { randomUUID } from "crypto";
 import { BaseRepository } from "./base-repository";
 
 import { ddbDocClient } from "@/lib/dynamodb";
-import type { FishRecord, CreateFishRecordDTO } from "@/types/fish-record-dto";
+import type { FishRecord, CreateFishRecordDTO } from "@/types/dto/fish-dto";
 
 type FishKey = { id: string };
 const TABLE_NAME = process.env.DYNAMODB_FISH_TABLE_NAME;
