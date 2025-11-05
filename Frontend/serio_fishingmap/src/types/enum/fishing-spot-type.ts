@@ -1,4 +1,5 @@
 export enum FishingSpotType {
+  Unknown = 0, // 不明
   Shore = 1, // 岸（おかっぱり全般）
   Breakwater = 2, // 堤防
   Rock = 3, // 磯
