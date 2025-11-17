@@ -1,7 +1,10 @@
-import { ScanCommand, PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
-import { ddbDocClient } from "@/lib/dynamodb";
 import { randomUUID } from "crypto";
-import { FishingResultRecord, CreateFishingResultDTO } from "../../../types/fishing-result-record-dto";
+import { ScanCommand, PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  FishingResultRecord,
+  CreateFishingResultDTO,
+} from "../../../types/dto/fishing-result-dto";
+import { ddbDocClient } from "@/lib/dynamodb";
 
 const TABLE_NAME = process.env.DYNAMODB_FISH_TABLE_NAME;
 
@@ -30,7 +33,9 @@ class FishingResultRepository {
   /**
    * 新しい釣果記録を作成する
    */
-  async create(recordData: CreateFishingResultDTO): Promise<FishingResultRecord> {
+  async create(
+    recordData: CreateFishingResultDTO
+  ): Promise<FishingResultRecord> {
     const newItem: FishingResultRecord = {
       id: randomUUID(),
       ...recordData,
