@@ -6,7 +6,9 @@ import { useLeafletMap } from "@/features/routes/fishing-spot-main-map/hooks/use
 import "./map.module.css";
 
 export const Map = () => {
-  const mapRef = useLeafletMap([34.655, 133.919]);
+  const mapRef = useLeafletMap([34.655, 133.919], {
+    enableMarkerPlacement: true,
+  });
 
   return (
     <div

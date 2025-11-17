@@ -5,13 +5,19 @@ import { useEffect, useRef } from "react";
 // Leaflet CSS is globally imported via src/app/globals.css
 // import "leaflet/dist/leaflet.css";
 //  import { Coordinate } from "@/utils/type";
-
 /** 緯度・経度を表す型 */
 export type Coordinate = [number, number];
 // またはオブジェクト型でも可：
 // export interface Coordinate { lat: number; lng: number; }
 
-const useLeafletMap = (center: Coordinate) => {
+type UseLeafletMapOptions = {
+  enableMarkerPlacement?: boolean;
+};
+
+const useLeafletMap = (
+  center: Coordinate,
+  { enableMarkerPlacement = false }: UseLeafletMapOptions = {}
+) => {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,11 +29,28 @@ const useLeafletMap = (center: Coordinate) => {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
+      const handleClick = (event: L.LeafletMouseEvent) => {
+        const marker = L.marker(event.latlng).addTo(map);
+
+        marker
+          .bindPopup(
+            `Lat: ${event.latlng.lat.toFixed(5)}, Lng: ${event.latlng.lng.toFixed(
+              5
+            )}`
+          )
+          .openPopup();
+      };
+
+      if (enableMarkerPlacement) {
+        map.on("click", handleClick);
+      }
+
       return () => {
+        map.off("click", handleClick);
         map.remove();
       };
     }
-  }, [center]);
+  }, [center, enableMarkerPlacement]);
 
   return mapRef;
 };
