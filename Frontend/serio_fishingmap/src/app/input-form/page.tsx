@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useAtom } from "jotai";
 import type { ChangeEvent } from "react";
@@ -19,6 +19,7 @@ import {
 type NumericField = "fishingTripId" | "sequenceNo" | "fishId" | "memberId";
 
 export default function FormPage() {
+  // jotaiのグローバルステートから必要な値／更新関数を取得
   const [formValues] = useAtom(inputFormValuesAtom);
   const [, updateInputForm] = useAtom(updateInputFormAtom);
   const [errors] = useAtom(inputFormErrorsAtom);
@@ -30,6 +31,7 @@ export default function FormPage() {
   const [, markSubmitting] = useAtom(markInputFormSubmittingAtom);
   const [, markResult] = useAtom(markInputFormResultAtom);
 
+  // 数値フィールド向けの入力ハンドラ
   const handleNumberChange =
     (key: NumericField) => (event: ChangeEvent<HTMLInputElement>) => {
       const value =
@@ -37,6 +39,7 @@ export default function FormPage() {
       updateInputForm({ key, value });
     };
 
+  // 文字列／日時フィールド向けの入力ハンドラ
   const handleStringChange =
     (key: "catchDateTime" | "note") =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -56,6 +59,7 @@ export default function FormPage() {
       return;
     }
 
+    // 実際のAPI呼び出しの代わりに擬似的な送信処理を行う
     markSubmitting();
     setTimeout(() => {
       console.info("送信ペイロード", submissionPayload);
