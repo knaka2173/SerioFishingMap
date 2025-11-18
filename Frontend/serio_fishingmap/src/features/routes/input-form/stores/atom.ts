@@ -1,33 +1,9 @@
-import { atom } from "jotai";
+﻿import { atom } from "jotai";
+import type { InputFormValues } from "../types/input-form-values";
 import type { CreateFishingResultDTO } from "@/types/dto/fishing-result-dto";
 
 // 釣果入力フォーム画面の状態をまとめて管理するためのJotaiストア群
 export type InputFormStep = "basic" | "environment" | "confirmation";
-
-// フォームで扱う全入力値の型
-export type InputFormValues = {
-  fishingTripId: number | null;
-  sequenceNo: number | null;
-  fishId: number | null;
-  memberId: number | null;
-  fishingTypeId: number | null;
-  toolId: number | null;
-  tackleId: number | null;
-  baitId: number | null;
-  waterQualityId: number | null;
-  catchDateTime: string;
-  tideCondition: number | null;
-  weather: number | null;
-  waterTemperature: number | null;
-  windSpeed: number | null;
-  windDirection: number | null;
-  waveHeight: number | null;
-  depth: number | null;
-  hitPattern: number | null;
-  note: string;
-  size: number | null;
-  isReleased: boolean;
-};
 
 // バリデーションエラーの保持形式
 export type InputFormErrors = Partial<Record<keyof InputFormValues, string>>;
@@ -48,7 +24,7 @@ export type InputFormUiState = {
   showDiscardDialog: boolean;
 };
 
-// 初期値をまとめた定数
+// 初期値をまとめた定数（場所は仮）
 export const defaultInputFormValues: InputFormValues = {
   fishingTripId: null,
   sequenceNo: null,
@@ -93,7 +69,7 @@ const REQUIRED_FIELD_MESSAGES: Record<RequiredNumericField, string> = {
 
 // touched状態の初期化関数
 const createDefaultTouchedState = (): InputFormTouched =>
-  (Object.keys(defaultInputFormValues) as Array<keyof InputFormValues>).reduce(
+  (Object.keys(defaultInputFormValues) as (keyof InputFormValues)[]).reduce(
     (acc, key) => {
       acc[key] = false;
       return acc;
@@ -102,9 +78,7 @@ const createDefaultTouchedState = (): InputFormTouched =>
   );
 
 // 入力値からエラーを導出
-export const validateInputForm = (
-  values: InputFormValues
-): InputFormErrors => {
+export const validateInputForm = (values: InputFormValues): InputFormErrors => {
   const errors: InputFormErrors = {};
 
   (Object.keys(REQUIRED_FIELD_MESSAGES) as RequiredNumericField[]).forEach(
@@ -143,10 +117,10 @@ const convertInputFormValuesToDto = (
   );
 
   return {
-    FishingTripID: values.fishingTripId as number,
-    SequenceNo: values.sequenceNo as number,
-    FishID: values.fishId as number,
-    MemberID: values.memberId as number,
+    FishingTripID: values.fishingTripId!,
+    SequenceNo: values.sequenceNo!,
+    FishID: values.fishId!,
+    MemberID: values.memberId!,
     FishingTypeID: values.fishingTypeId ?? 0,
     ToolID: values.toolId ?? 0,
     TackleID: values.tackleId ?? 0,
@@ -203,9 +177,7 @@ export const setInputFormManualErrorsAtom = atom(
   (
     _get,
     set,
-    update:
-      | InputFormErrors
-      | ((prev: InputFormErrors) => InputFormErrors)
+    update: InputFormErrors | ((prev: InputFormErrors) => InputFormErrors)
   ) => {
     set(inputFormManualErrorsAtom, update);
   }
@@ -247,7 +219,7 @@ export const updateInputFormAtom = atom(
 // 初期値と比較して編集中かどうか
 export const inputFormIsDirtyAtom = atom((get) => {
   const current = get(inputFormValuesAtom);
-  return (Object.keys(current) as Array<keyof InputFormValues>).some(
+  return (Object.keys(current) as (keyof InputFormValues)[]).some(
     (key) => current[key] !== defaultInputFormValues[key]
   );
 });
@@ -265,19 +237,18 @@ export const inputFormCanSubmitAtom = atom((get) => {
 });
 
 // DTOへ変換済みのペイロード
-export const inputFormSubmissionPayloadAtom = atom<
-  CreateFishingResultDTO | null
->((get) => {
-  if (get(inputFormHasErrorsAtom)) {
-    return null;
-  }
+export const inputFormSubmissionPayloadAtom =
+  atom<CreateFishingResultDTO | null>((get) => {
+    if (get(inputFormHasErrorsAtom)) {
+      return null;
+    }
 
-  try {
-    return convertInputFormValuesToDto(get(inputFormValuesAtom));
-  } catch {
-    return null;
-  }
-});
+    try {
+      return convertInputFormValuesToDto(get(inputFormValuesAtom));
+    } catch {
+      return null;
+    }
+  });
 
 // 画面状態をまとめて初期化
 export const resetInputFormAtom = atom(null, (_get, set) => {
@@ -313,10 +284,9 @@ export const updateInputFormUiAtom = atom(
 );
 
 // ローディング表現を開始
-export const markInputFormSubmittingAtom = atom(
-  null,
-  (_get, set) => set(inputFormStatusAtom, "submitting")
-);
+export const markInputFormSubmittingAtom = atom(null, (_get, set) => {
+  set(inputFormStatusAtom, "submitting");
+});
 
 // 送信結果とメッセージを記録
 export const markInputFormResultAtom = atom(
@@ -333,4 +303,3 @@ export const markInputFormResultAtom = atom(
     set(inputFormServerMessageAtom, result.message ?? null);
   }
 );
-
