@@ -1,0 +1,144 @@
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: radial-gradient(circle at 20% 20%, #e0f2fe 0, transparent 28%),
+    radial-gradient(circle at 80% 0%, #fef3c7 0, transparent 26%),
+    #f8fafc;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 24px;
+  border-radius: 16px;
+  background: #0f172a;
+  color: #e2e8f0;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.25);
+}
+
+.kicker {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a5b4fc;
+}
+
+.title {
+  margin: 4px 0 8px;
+  font-size: 28px;
+  line-height: 1.25;
+  color: #f8fafc;
+}
+
+.subtitle {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.sectionHint {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.sectionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px 18px;
+}
+
+.fieldWithHint {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px dashed #d1d5db;
+  background: #f8fafc;
+}
+
+.inlineAction {
+  display: flex;
+  align-items: flex-end;
+}
+
+.error {
+  color: #e11d48;
+  font-size: 13px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.statusPanel {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #0ea5e9;
+  color: #0b1030;
+}
+
+.statusText {
+  margin: 0;
+  font-weight: 700;
+}
+
+.statusMessage {
+  margin: 0;
+}
+
+.debug {
+  background: #0b1220;
+  color: #e2e8f0;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  overflow: auto;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
