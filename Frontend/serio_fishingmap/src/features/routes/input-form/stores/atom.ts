@@ -26,8 +26,8 @@ export type InputFormUiState = {
 
 // 初期値をまとめた定数（場所は仮）
 export const defaultInputFormValues: InputFormValues = {
-  fishingTripId: null,
-  sequenceNo: null,
+  fishingTripId: null, //削除予定
+  sequenceNo: null, //削除予定
   fishId: null,
   memberId: null,
   fishingTypeId: null,
