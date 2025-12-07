@@ -23,6 +23,7 @@ const useLeafletMap = (
   center: Coordinate,
   { enableMarkerPlacement = false }: UseLeafletMapOptions = {}
 ) => {
+  /** マップを描画するDOM要素の参照 */
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
