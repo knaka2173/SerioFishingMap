@@ -1,11 +1,21 @@
 "use client";
 
-import { Box, Icon, Link, Text, VStack } from "@chakra-ui/react";
-import { sidebarItemsData } from "./sidebar.data"; // 正しい名前でインポートし、型もインポート
-import { FiHome, FiUser, FiSettings } from "react-icons/fi"; // ★ アイコンコンポーネントを直接インポート
-import { IconType } from "react-icons"; // ★ IconType もインポート
+import { useState } from "react";
+import {
+  Box,
+  Flex,
+  Icon,
+  IconButton,
+  Link,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import type { SidebarItemData } from "./sidebar.data";
+import { sidebarItemsData } from "./sidebar.data"; // サイドバーのリンクデータ
+import { FiHome, FiMenu, FiSettings, FiUser } from "react-icons/fi"; // 使用するアイコン
+import { IconType } from "react-icons"; // アイコンの型
 
-// ★ アイコン名と実際のコンポーネントをマッピングするオブジェクトを作成
+// アイコン名と実際のコンポーネントを結び付けるマップ
 const iconComponents: { [key: string]: IconType } = {
   FiHome: FiHome,
   FiUser: FiUser,
@@ -13,16 +23,56 @@ const iconComponents: { [key: string]: IconType } = {
 };
 
 export const Sidebar = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const HEADER_HEIGHT = 76; // ヘッダーに隠れないよう余白を確保
+  const sidebarWidth = isExpanded ? "240px" : "72px";
+
   return (
     <Box display="flex" minH="100vh">
-      <Box as="nav" bg="gray.800" color="white" w="240px" p={4}>
-        <Text fontSize="2xl" fontWeight="bold" mb={6}>
-          アプリ名
-        </Text>
-        <VStack align="stretch" spacing={4}>
-          {/* item の型注釈を SidebarItemData にする (インポートしていれば型推論も効く) */}
+      <Box
+        as="nav"
+        position="fixed"
+        left={0}
+        top={`${HEADER_HEIGHT}px`}
+        h={`calc(100vh - ${HEADER_HEIGHT}px)`}
+        bg="gray.800"
+        color="white"
+        w={sidebarWidth}
+        px={3}
+        py={4}
+        transition="width 0.2s ease"
+        overflow="hidden"
+        boxShadow="lg"
+        display="flex"
+        flexDirection="column"
+        zIndex={10}
+      >
+        <Flex
+          align="center"
+          justify={isExpanded ? "space-between" : "center"}
+          mb={6}
+          gap={2}
+        >
+          {isExpanded && (
+            <Text fontSize="lg" fontWeight="bold">
+              ナビゲーション
+            </Text>
+          )}
+          <IconButton
+            aria-label="サイドバーの表示を切り替え"
+            icon={<FiMenu />}
+            size="sm"
+            variant="ghost"
+            colorScheme="whiteAlpha"
+            onClick={() => setIsExpanded((prev) => !prev)}
+          />
+        </Flex>
+
+        <VStack align="stretch" spacing={2} flex="1">
+          {/* itemデータをSidebarItemDataとして扱う */}
           {sidebarItemsData.map((item: SidebarItemData) => {
-            // ★ item.iconName を使って、対応するアイコンコンポーネントを取得
+            // item.iconNameから実際のアイコンコンポーネントを取得
             const IconComponent = iconComponents[item.iconName];
 
             return (
@@ -30,25 +80,25 @@ export const Sidebar = () => {
                 key={item.label}
                 href={item.href}
                 _hover={{ textDecoration: "none", bg: "gray.700" }}
-                px={3}
+                px={isExpanded ? 3 : 0}
                 py={2}
                 borderRadius="md"
                 display="flex"
                 alignItems="center"
-                gap={3}
+                gap={isExpanded ? 3 : 0}
+                justifyContent="center"
+                aria-label={item.label}
               >
-                {/* ★ 取得した IconComponent を as プロパティに渡す */}
+                {/* IconComponentが存在する場合のみ描画 */}
                 {IconComponent && <Icon as={IconComponent} boxSize={5} />}
-                <Text>{item.label}</Text>
+                {isExpanded && <Text>{item.label}</Text>}
               </Link>
             );
           })}
         </VStack>
       </Box>
 
-      <Box flex="1" p={6} bg="gray.50">
-        {/* children はページが入る */}
-      </Box>
+      <Box w={sidebarWidth} aria-hidden="true" />
     </Box>
   );
 };
