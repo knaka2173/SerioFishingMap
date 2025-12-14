@@ -2,12 +2,12 @@
 
 import type { LatLng } from "leaflet";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { useLeafletMap } from "@/features/routes/fishing-spot-main-map/hooks/useLeafletMap";
 
 import "./map.module.css";
 
-// 実APIが未整備のため、型とモックデータ・モックAPIをこのコンポーネント内に定義
+// 実APIが未整備のため、型とモックデータをこのコンポーネント内に定義
 type FishingSpotSummary = {
   id: number;
   name: string;
@@ -27,110 +27,81 @@ type FishingSpotDetail = FishingSpotSummary & {
 const MOCK_SPOTS: FishingSpotDetail[] = [
   {
     id: 1,
-    name: "Kojima Bay Shore",
+    name: "児島湾岸浅場",
     coordinate: [34.655, 133.919],
-    shortDescription: "Shallow rocks & weed area",
+    shortDescription: "シャローの岩礁とウィード",
     description:
-      "Sheltered shallow bay. Light game with plugs and soft baits works well around weed edges.",
-    targetFish: ["Seabass", "Flounder", "Rockfish"],
-    bestSeason: "Spring - Autumn",
-    waterDepth: "0.5m - 2m",
-    note: "Fish the incoming tide; wading recommended only at calm conditions.",
+      "風を防げる浅場。ウィードエッジをミノーやソフトルアーで軽く攻めるのが効果的。",
+    targetFish: ["シーバス", "ヒラメ", "ロックフィッシュ"],
+    bestSeason: "春〜秋",
+    waterDepth: "0.5m〜2m",
+    note: "満ち潮が狙い目。ウェーディングは凪いだ日のみ推奨。",
   },
   {
     id: 2,
-    name: "Ushimado Pier",
+    name: "牛窓防波堤",
     coordinate: [34.6415, 134.0675],
-    shortDescription: "Harbor pier with steady current",
+    shortDescription: "潮通しの良い港の外向き",
     description:
-      "Outer pier that catches tidal flow. Metal jigs and jig heads reach the bottom quickly.",
-    targetFish: ["Mackerel", "Horse mackerel", "Seabass"],
-    bestSeason: "Year-round, peak in early summer",
-    waterDepth: "3m - 8m",
-    note: "Wear a life jacket. Night fishing is effective with small lures.",
+      "外向きで潮がしっかり動くポイント。メタルジグやジグヘッドでボトムを早く取れる。",
+    targetFish: ["サバ", "アジ", "シーバス"],
+    bestSeason: "通年（初夏がピーク）",
+    waterDepth: "3m〜8m",
+    note: "ライフジャケット必須。夜は小型ルアーが効果的。",
   },
   {
     id: 3,
-    name: "Yoshii River Mouth",
+    name: "吉井川河口サンドフラット",
     coordinate: [34.5805, 133.9455],
-    shortDescription: "River mouth sand flat",
+    shortDescription: "ベイトが寄る広い砂地",
     description:
-      "Wide sand flat where bait gathers on the tide change. Long casts help cover the channel.",
-    targetFish: ["Flounder", "Seabass"],
-    bestSeason: "Autumn - Winter",
-    waterDepth: "1m - 4m",
-    note: "Check wading routes at low tide; watch for boat traffic.",
+      "潮替わりにベイトが寄る広大なフラット。チャネルをロングキャストで探ると反応が出やすい。",
+    targetFish: ["ヒラメ", "シーバス"],
+    bestSeason: "秋〜冬",
+    waterDepth: "1m〜4m",
+    note: "干潮時にウェーディングルートを確認。船の往来に注意。",
   },
 ];
 
-// 一覧取得のモックAPI
-const fetchFishingSpotsMock = async (): Promise<FishingSpotSummary[]> =>
-  new Promise((resolve) =>
-    setTimeout(
-      () =>
-        resolve(
-          MOCK_SPOTS.map(({ id, name, coordinate, shortDescription }) => ({
-            id,
-            name,
-            coordinate,
-            shortDescription,
-          }))
-        ),
-      300
-    )
-  );
-
-// 詳細取得のモックAPI
-const fetchFishingSpotDetailMock = async (
-  id: number
-): Promise<FishingSpotDetail | null> =>
-  new Promise((resolve) =>
-    setTimeout(() => {
-      const spot = MOCK_SPOTS.find((item) => item.id === id);
-      resolve(spot ?? null);
-    }, 400)
-  );
-
 export const Map = () => {
   const router = useRouter();
-  // マップ上に配置するスポット一覧
-  const [spots, setSpots] = useState<FishingSpotSummary[]>([]);
+  // マップに渡すスポット一覧を同期で用意し、描画のタイミングで揺れないようにする
+  const spots = useMemo<FishingSpotSummary[]>(
+    () =>
+      MOCK_SPOTS.map(({ id, name, coordinate, shortDescription }) => ({
+        id,
+        name,
+        coordinate,
+        shortDescription,
+      })),
+    []
+  );
   // クリックして取得したスポットの詳細
-  const [selectedSpot, setSelectedSpot] = useState<FishingSpotDetail | null>(null);
-  // 詳細取得中のスポットID（ローディング表示制御用）
+  const [selectedSpot, setSelectedSpot] = useState<FishingSpotDetail | null>(
+    null
+  );
+  // 詳細取得中のスポットID（同期処理だが状態として保持）
   const [loadingSpotId, setLoadingSpotId] = useState<number | null>(null);
-  // エラーメッセージ表示用
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    // マウント時にモックAPIからスポット一覧を読み込む
-    fetchFishingSpotsMock()
-      .then(setSpots)
-      .catch(() => setErrorMessage("Failed to load mock data."));
-  }, []);
-
-  const handleSpotClick = async (spotId: number) => {
-    // ピン選択時に詳細をモックAPIから取得
+  const handleSpotClick = (spotId: number) => {
+    // 非同期遅延を挟まず即座に詳細を表示して点滅を防ぐ
     setErrorMessage(null);
     setLoadingSpotId(spotId);
-    try {
-      const detail = await fetchFishingSpotDetailMock(spotId);
-      if (!detail) {
-        setSelectedSpot(null);
-        setErrorMessage("No spot detail found.");
-        return;
-      }
-      setSelectedSpot(detail);
-    } catch (error) {
-      setErrorMessage("Failed to load spot detail.");
+
+    const detail = MOCK_SPOTS.find((item) => item.id === spotId) ?? null;
+    if (!detail) {
       setSelectedSpot(null);
-    } finally {
+      setErrorMessage("No spot detail found.");
       setLoadingSpotId(null);
+      return;
     }
+
+    setSelectedSpot(detail);
+    setLoadingSpotId(null);
   };
 
   const handleMapClick = (latlng: LatLng) => {
-    // 地図クリックで入力フォームへ遷移するか確認
     const shouldNavigate = window.confirm(
       "Go to the input form to register a new spot?"
     );
@@ -149,6 +120,9 @@ export const Map = () => {
     onSpotClick: handleSpotClick,
     onMapClick: handleMapClick,
   });
+
+  // Leafletの各ペインはz-index 200-700なので、オーバーレイを上に置く
+  const overlayZ = 1000;
 
   return (
     <div style={{ position: "relative" }}>
@@ -169,10 +143,11 @@ export const Map = () => {
           maxWidth: 320,
           fontSize: 14,
           lineHeight: 1.4,
+          zIndex: overlayZ,
         }}
       >
         <div style={{ fontWeight: 700, marginBottom: 6 }}>Fishing Map</div>
-        <div>Tap a pin to fetch mock data and show detail.</div>
+        <div>Tap a pin to show detail (mock data).</div>
         <div>Tap the map to confirm navigation to the input form.</div>
         {errorMessage && (
           <div style={{ color: "#b00020", marginTop: 8 }}>{errorMessage}</div>
@@ -193,6 +168,7 @@ export const Map = () => {
             minWidth: 280,
             fontSize: 14,
             lineHeight: 1.5,
+            zIndex: overlayZ,
           }}
         >
           <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 4 }}>
@@ -202,7 +178,14 @@ export const Map = () => {
             {selectedSpot.shortDescription}
           </div>
           <div style={{ marginBottom: 6 }}>{selectedSpot.description}</div>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              flexWrap: "wrap",
+              marginBottom: 8,
+            }}
+          >
             <Badge label={`Target: ${selectedSpot.targetFish.join(", ")}`} />
             <Badge label={`Season: ${selectedSpot.bestSeason}`} />
             <Badge label={`Depth: ${selectedSpot.waterDepth}`} />
@@ -222,6 +205,7 @@ export const Map = () => {
             boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
             borderRadius: 8,
             fontSize: 14,
+            zIndex: overlayZ,
           }}
         >
           Loading pin info...
