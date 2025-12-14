@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Box,
   Flex,
@@ -10,13 +9,14 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { IconType } from "react-icons"; // アイコンの型
+import { FiHome, FiMenu, FiSettings, FiUser } from "react-icons/fi"; // 使用するアイコン
 import type { SidebarItemData } from "./sidebar.data";
 import { sidebarItemsData } from "./sidebar.data"; // サイドバーのリンクデータ
-import { FiHome, FiMenu, FiSettings, FiUser } from "react-icons/fi"; // 使用するアイコン
-import { IconType } from "react-icons"; // アイコンの型
 
 // アイコン名と実際のコンポーネントを結び付けるマップ
-const iconComponents: { [key: string]: IconType } = {
+const iconComponents: Record<string, IconType> = {
   FiHome: FiHome,
   FiUser: FiUser,
   FiSettings: FiSettings,
@@ -65,7 +65,9 @@ export const Sidebar = () => {
             size="sm"
             variant="ghost"
             colorScheme="whiteAlpha"
-            onClick={() => setIsExpanded((prev) => !prev)}
+            onClick={() => {
+              setIsExpanded((prev) => !prev);
+            }}
           />
         </Flex>
 
