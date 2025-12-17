@@ -1,8 +1,8 @@
 // ロッド種別
-export enum RodType {
-  Unknown = 0, // 不明
-  Spinning = 1, // スピニングロッド
-  BaitCasting = 2, // ベイトロッド
-  Telescopic = 3, // 振出竿
-  Fly = 4, // フライロッド
-}
+export const RodType = [
+  { code: 0, enLabel: "Unknown", jpLabel: "不明" },
+  { code: 1, enLabel: "Spinning", jpLabel: "スピニングロッド" },
+  { code: 2, enLabel: "BaitCasting", jpLabel: "ベイトロッド" },
+  { code: 3, enLabel: "Telescopic", jpLabel: "振出竿" },
+  { code: 4, enLabel: "Fly", jpLabel: "フライロッド" },
+] as const;
