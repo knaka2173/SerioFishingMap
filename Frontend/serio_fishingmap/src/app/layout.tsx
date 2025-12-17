@@ -4,8 +4,8 @@ import { ReactNode } from "react";
 import "./globals.css";
 import styles from "./page.module.css";
 import { Providers } from "./providers";
-import AppHeader from "components/layouts/app-header/app-header";
 import { Sidebar } from "@/components/elements/Sidebar/sidebar";
+import AppHeader from "@/components/layouts/app-header/app-header";
 
 const geistSans = localFont({
   src: "../styles/fonts/GeistVF.woff",
