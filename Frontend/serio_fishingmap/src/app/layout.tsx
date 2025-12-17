@@ -1,10 +1,11 @@
-import { ReactNode } from "react";
-import { Providers } from "./providers";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { ReactNode } from "react";
 import "./globals.css";
 import styles from "./page.module.css";
+import { Providers } from "./providers";
 import AppHeader from "components/layouts/app-header/app-header";
+import { Sidebar } from "@/components/elements/Sidebar/sidebar";
 
 const geistSans = localFont({
   src: "../styles/fonts/GeistVF.woff",
@@ -31,11 +32,16 @@ export default function RootLayout({
     <html lang="ja">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
-          <AppHeader />
-          {children}
-          <footer className={styles.footer}>
-            <p>© 2025 Serio Fishing Map</p>
-          </footer>
+          <div className="app-shell">
+            <Sidebar />
+            <div className="app-shell__main">
+              <AppHeader />
+              <main className="app-content">{children}</main>
+              <footer className={styles.footer}>
+                <p>© 2025 Serio Fishing Map</p>
+              </footer>
+            </div>
+          </div>
         </Providers>
       </body>
     </html>
