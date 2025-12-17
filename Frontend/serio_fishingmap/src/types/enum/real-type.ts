@@ -1,8 +1,8 @@
 // リール種別
-export enum ReelType {
-  Unknown = 0, // 不明
-  Spinning = 1, // スピニングリール
-  BaitCasting = 2, // ベイトリール
-  Fly = 3, // フライリール
-  Electric = 4, // 電動リール
-}
+export const ReelType = [
+  { code: 0, label: "不明" },
+  { code: 1, label: "スピニングリール" },
+  { code: 2, label: "ベイトリール" },
+  { code: 3, label: "フライリール" },
+  { code: 4, label: "電動リール" },
+] as const;

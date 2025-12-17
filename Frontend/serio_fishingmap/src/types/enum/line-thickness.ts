@@ -1,8 +1,8 @@
 // リールの太さ
-export enum LineThickness {
-  Unknown = 0, // 不明
-  UltraLight = 1, // ～0.6号
-  Light = 2, // ～1.5号
-  Medium = 3, // ～3号
-  Heavy = 4, // 3号以上
-}
+export const LineThickness = [
+  { code: 0, label: "不明" },
+  { code: 1, label: "～0.6号" },
+  { code: 2, label: "～1.5号" },
+  { code: 3, label: "～3号" },
+  { code: 4, label: "3号以上" },
+] as const;
