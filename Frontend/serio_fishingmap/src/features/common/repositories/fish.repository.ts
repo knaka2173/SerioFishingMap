@@ -1,24 +1,21 @@
-// repositories/fish-repository.ts
+// repositories\fish.repository.ts
 import { randomUUID } from "crypto";
 import { BaseRepository } from "./base-repository";
 
 import { ddbDocClient } from "@/lib/dynamodb";
-import type { FishRecord, CreateFishRecordDTO } from "@/types/dto/fish-dto";
+import type { Fish, CreateFishDTO } from "@/types/dto/fish-dto";
 
 type FishKey = { id: string };
 const TABLE_NAME = process.env.DYNAMODB_FISH_TABLE_NAME;
 
-export const fishRepository: BaseRepository<
-  FishRecord,
-  CreateFishRecordDTO,
-  FishKey
-> = new BaseRepository<FishRecord, CreateFishRecordDTO, FishKey>(
-  ddbDocClient,
-  TABLE_NAME,
-  () => ({ id: randomUUID() }),
-  (dto, key) => ({
-    ...key,
-    ...dto,
-    createdAt: new Date().toISOString(),
-  })
-);
+export const fishRepository: BaseRepository<Fish, CreateFishDTO, FishKey> =
+  new BaseRepository<Fish, CreateFishDTO, FishKey>(
+    ddbDocClient,
+    TABLE_NAME,
+    () => ({ id: randomUUID() }),
+    (dto, key) => ({
+      ...key,
+      ...dto,
+      createdAt: new Date().toISOString(),
+    })
+  );

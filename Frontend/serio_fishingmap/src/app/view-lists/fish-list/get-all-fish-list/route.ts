@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
-import { getAllFishList } from "@/features/fish-list/get-all-fish-list/route";
-/**
- * GET /api/FishAllViews
- * すべての釣果記録を取得するAPI
- */
+import { getAllFishList } from "@/features/routes/view-lists/fish-list/api/route";
+
 export async function GET() {
   try {
     const records = await getAllFishList();

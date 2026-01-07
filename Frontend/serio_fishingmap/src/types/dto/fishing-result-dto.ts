@@ -1,6 +1,8 @@
 // 釣果のデータ型を定義
 export type FishingResult = {
-  FishingResultID: number; // 釣果ID
+  FishingResultID: number; // 釣果ID 主キー
+  createdAt: string; // 作成日時
+
   FishingTripID: number; // 釣行ID
   SequenceNo: number; // 連番
   FishID: number; // 魚ID
@@ -10,7 +12,7 @@ export type FishingResult = {
   TackleID: number; // 仕掛けID
   BaitID: number; // 餌ID
   WaterQualityID: number; // 水質ID
-  CatchDateTime: Date; // 釣れた時間
+  CatchDateTime: string; // 釣れた時間
   TideCondition: number; // 潮の状態 列挙型で定義
   Weather: number; // 天気 列挙型で定義
   WaterTemperature: number; // 水温 列挙型で定義
@@ -25,4 +27,7 @@ export type FishingResult = {
 };
 
 // 新規作成時にAPIが受け取るデータの型
-export type CreateFishingResultDTO = Omit<FishingResult, "id" | "createdAt">;
+export type CreateFishingResultDTO = Omit<
+  FishingResult,
+  "FishingResultID" | "createdAt"
+>;

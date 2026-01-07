@@ -10,3 +10,7 @@ export default function FormPage() {
   );
 }
 */
+// 仮 ↓page.tsxは空だとビルドが通らないので、最小のexportを作成。
+export default function FormPage() {
+  return null;
+}

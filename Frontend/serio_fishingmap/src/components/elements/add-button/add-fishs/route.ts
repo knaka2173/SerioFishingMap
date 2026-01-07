@@ -1,10 +1,7 @@
 // src/app/api/FishAllViews/route.ts
-
 import { NextResponse } from "next/server";
-import {
-  createFishRecord,
-  createFishRecordDTO,
-} from "@/features/common/repositories/fish.repository";
+import { fishRepository } from "@/features/common/repositories/fish.repository";
+import type { CreateFishDTO } from "@/types/dto/fish-dto";
 
 /**
  * POST /api/FishAllViews
@@ -12,17 +9,17 @@ import {
  */
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as createFishRecordDTO;
+    const body = (await request.json()) as CreateFishDTO;
 
     // 簡単なバリデーション
-    if (!body.fishName || !body.locationName || !body.caughtDate) {
+    if (!body.fishName || !body.fishOrder || !body.category) {
       return NextResponse.json(
         { error: "必須項目が不足しています" },
         { status: 400 }
       );
     }
 
-    const newRecord = await createFishRecord(body);
+    const newRecord = await fishRepository.create(body);
 
     return NextResponse.json(newRecord, { status: 201 });
   } catch (error) {
