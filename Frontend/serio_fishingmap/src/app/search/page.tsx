@@ -2,17 +2,21 @@
 import { useEffect, useState } from "react";
 
 export default function MapPage() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<unknown>(null);
 
   useEffect(() => {
     async function fetchData() {
       await fetch("/api/testApi")
         .then((response) => response.json())
-        .then((data) => setData(data))
-        .catch((error) => console.error("Error fetching data;", error));
+        .then((data) => {
+          setData(data);
+        })
+        .catch((error: unknown) => {
+          console.error("Error fetching data;", error);
+        });
     }
 
-    fetchData();
+    void fetchData();
   }, []);
 
   if (!data) {

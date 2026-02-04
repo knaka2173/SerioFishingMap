@@ -1,11 +1,23 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { CustomCardGroup } from "@/components/elements/Card/CardGroup";
 import { FilterChipGroup } from "@/components/elements/filter-chip/FilterChipGroup";
 import { Label } from "@/components/elements/Label/Label";
 
-// TODO:テストデータa
-const cardData = [
+// TODO: テストデータ
+type BaseCard = {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+};
+
+type CardWithObjectUrl = BaseCard & {
+  imageObjectUrl: string;
+};
+
+const cardData: BaseCard[] = [
   {
     id: 1,
     title: "Card 1",
@@ -27,51 +39,80 @@ const cardData = [
 ];
 
 export default function FishListPage() {
-  // カードグループコンポーネント
-  const [cards, setCards] = useState<any[]>([]);
+  const [cards, setCards] = useState<CardWithObjectUrl[]>([]);
 
   useEffect(() => {
+    let disposed = false;
+    const objectUrls: string[] = [];
+
     const loadImages = async () => {
-      const withBlobs = await Promise.all(
+      const withBlobs: CardWithObjectUrl[] = await Promise.all(
         cardData.map(async (item) => {
           const res = await fetch(item.imageUrl);
           const blob = await res.blob();
           const objectUrl = URL.createObjectURL(blob);
+
+          objectUrls.push(objectUrl);
+
           return { ...item, imageObjectUrl: objectUrl };
         })
       );
-      setCards(withBlobs);
+
+      if (!disposed) {
+        setCards(withBlobs);
+      } else {
+        objectUrls.forEach((url) => {
+          URL.revokeObjectURL(url);
+        });
+      }
     };
 
-    loadImages();
+    void loadImages();
 
     return () => {
-      cards.forEach((card) => {
-        if (card.imageObjectUrl) URL.revokeObjectURL(card.imageObjectUrl);
+      disposed = true;
+      objectUrls.forEach((url) => {
+        URL.revokeObjectURL(url);
       });
     };
   }, []);
 
-  // GET API
-  const [data, setData] = useState(null);
+  type JsonValue =
+    | string
+    | number
+    | boolean
+    | null
+    | JsonValue[]
+    | { [key: string]: JsonValue };
+
+  const [data, setData] = useState<JsonValue | null>(null);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    async function fetchData() {
-      await fetch("/api/testApi")
-        .then((response) => response.json())
-        .then((data) => {
-          setData(data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data;", error);
-        });
-    }
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/testApi");
+        const json: unknown = await response.json();
+        setData(json as JsonValue);
+      } catch (error: unknown) {
+        console.error("Error fetching data:", error);
+        setData(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    fetchData();
+    void fetchData();
   }, []);
 
-  if (!data) {
+  if (isLoading) {
     return <div>Loading...</div>;
+  }
+
+  // data が null の場合（API失敗など）
+  if (data === null) {
+    return <div>Failed to load data.</div>;
   }
 
   return (

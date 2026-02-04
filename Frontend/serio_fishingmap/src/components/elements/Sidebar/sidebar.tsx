@@ -10,17 +10,16 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { IconType } from "react-icons"; // アイコンの型
+// アイコンの型
 import { FiHome, FiMenu, FiSettings, FiUser } from "react-icons/fi"; // 使用するアイコン
 import type { SidebarItemData } from "./sidebar.data";
 import { sidebarItemsData } from "./sidebar.data"; // サイドバーのリンクデータ
 
-// アイコン名と実際のコンポーネントを結び付けるマップ
-const iconComponents: Record<string, IconType> = {
-  FiHome: FiHome,
-  FiUser: FiUser,
-  FiSettings: FiSettings,
-};
+const iconComponents = {
+  FiHome,
+  FiUser,
+  FiSettings,
+} as const;
 
 export const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -34,8 +33,8 @@ export const Sidebar = () => {
         as="nav"
         position="fixed"
         left={0}
-        top={`${HEADER_HEIGHT}px`}
-        h={`calc(100vh - ${HEADER_HEIGHT}px)`}
+        top={`${String(HEADER_HEIGHT)}px`}
+        h={`calc(100vh - ${String(HEADER_HEIGHT)}px)`}
         bg="gray.800"
         color="white"
         w={sidebarWidth}
@@ -72,9 +71,7 @@ export const Sidebar = () => {
         </Flex>
 
         <VStack align="stretch" spacing={2} flex="1">
-          {/* itemデータをSidebarItemDataとして扱う */}
           {sidebarItemsData.map((item: SidebarItemData) => {
-            // item.iconNameから実際のアイコンコンポーネントを取得
             const IconComponent = iconComponents[item.iconName];
 
             return (
@@ -91,8 +88,7 @@ export const Sidebar = () => {
                 justifyContent="center"
                 aria-label={item.label}
               >
-                {/* IconComponentが存在する場合のみ描画 */}
-                {IconComponent && <Icon as={IconComponent} boxSize={5} />}
+                <Icon as={IconComponent} boxSize={5} />
                 {isExpanded && <Text>{item.label}</Text>}
               </Link>
             );

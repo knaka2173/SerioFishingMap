@@ -1,20 +1,20 @@
-// repositories/fish-repository.ts
+// src/features/common/repositories/fish.repository.ts
 import { randomUUID } from "crypto";
 import { BaseRepository } from "./base-repository";
-
 import { ddbDocClient } from "@/lib/dynamodb";
-import type { FishRecord, CreateFishRecordDTO } from "@/types/dto/fish-dto";
+import type { Fish, CreateFishDTO } from "@/types/dto/fish-dto";
 
 type FishKey = { id: string };
-const TABLE_NAME = process.env.DYNAMODB_FISH_TABLE_NAME;
 
-export const fishRepository: BaseRepository<
-  FishRecord,
-  CreateFishRecordDTO,
-  FishKey
-> = new BaseRepository<FishRecord, CreateFishRecordDTO, FishKey>(
+const getFishTableName = () => {
+  const name = process.env.DYNAMODB_FISH_TABLE_NAME;
+  if (!name) throw new Error("DYNAMODB_FISH_TABLE_NAME is not set");
+  return name;
+};
+
+export const fishRepository = new BaseRepository<Fish, CreateFishDTO, FishKey>(
   ddbDocClient,
-  TABLE_NAME,
+  getFishTableName,
   () => ({ id: randomUUID() }),
   (dto, key) => ({
     ...key,

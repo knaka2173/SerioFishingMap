@@ -3,7 +3,7 @@
 
 export type SidebarItemData = {
   label: string;
-  iconName: string; // アイコンコンポーネント名 (例: "FiHome")
+  iconName: "FiHome" | "FiUser" | "FiSettings";
   href: string;
 };
 
