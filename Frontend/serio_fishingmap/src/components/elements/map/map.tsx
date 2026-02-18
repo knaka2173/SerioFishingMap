@@ -39,12 +39,13 @@ const MOCK_SPOTS: FishingSpotDetail[] = [
   },
   {
     id: 2,
-    name: "牛窓防波堤",
-    coordinate: [34.6415, 134.0675],
-    shortDescription: "潮通しの良い港の外向き",
+    name: "牛窓フェリー乗り場",
+    coordinate: [34.61467, 134.16479],
+    shortDescription:
+      "フェリー乗り場近くから南東に続く護岸一帯で竿出しができる",
     description:
       "外向きで潮がしっかり動くポイント。メタルジグやジグヘッドでボトムを早く取れる。",
-    targetFish: ["サバ", "アジ", "シーバス"],
+    targetFish: ["チヌ", "メバル", "サヨリ"],
     bestSeason: "通年（初夏がピーク）",
     waterDepth: "3m〜8m",
     note: "ライフジャケット必須。夜は小型ルアーが効果的。",

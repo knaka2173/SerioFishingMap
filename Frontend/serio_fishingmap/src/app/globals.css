@@ -35,6 +35,27 @@ a {
   text-decoration: none;
 }
 
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-shell__main {
+  flex: 1;
+  min-height: 100vh;
+  /* background: var(--background); */
+}
+
+.app-content {
+  padding: 16px 20px 24px;
+}
+
+@media (max-width: 640px) {
+  .app-content {
+    padding: 12px 14px 18px;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
