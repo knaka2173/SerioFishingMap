@@ -1,9 +1,9 @@
 // 天気
-export enum Weather {
-  Unknown = 0, // 不明
-  Sunny = 1, // 晴れ
-  Cloudy = 2, // 曇り
-  Rainy = 3, // 雨
-  Stormy = 4, // 嵐
-  Snowy = 5, // 雪
-}
+export const Weather = [
+  { code: 0, enLabel: "Unknown", jpLabel: "不明" },
+  { code: 1, enLabel: "Sunny", jpLabel: "晴れ" },
+  { code: 2, enLabel: "Cloudy", jpLabel: "曇り" },
+  { code: 3, enLabel: "Rainy", jpLabel: "雨" },
+  { code: 4, enLabel: "Stormy", jpLabel: "嵐" },
+  { code: 5, enLabel: "Snowy", jpLabel: "雪" },
+] as const;
