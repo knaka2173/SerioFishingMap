@@ -17,13 +17,6 @@ export default function Home() {
       <button onClick={handleClickFishList}>魚一覧へ</button>
       <br></br>
       <button onClick={handleClickInputForm}>入力フォームへ</button>
-
-      <Sidebar></Sidebar>
-      {/* TODO:Sidebarコンポーネントの修正
-      ・ヘッダーコンポーネントより開閉可能とする。
-        ・コンポーネント表示時はメインコンテンツと横並びにできることを確認する
-      ・アプリ名は不要
-      */}
     </div>
   );
 }
