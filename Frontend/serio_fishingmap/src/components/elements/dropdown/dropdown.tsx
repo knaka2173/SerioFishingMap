@@ -2,9 +2,6 @@ import { Select } from "@chakra-ui/react";
 import { ChangeEvent } from "react";
 
 /**
- * usage
- */
-/**
  * const [fruit, setFruit] = useState("");
 
   const options = [
