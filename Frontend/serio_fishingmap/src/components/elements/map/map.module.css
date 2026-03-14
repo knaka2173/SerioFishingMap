@@ -1,1 +1,97 @@
 @import "leaflet/dist/leaflet.css";
+
+.container {
+  position: relative;
+}
+
+.map {
+  width: 100%;
+  min-height: calc(100vh - 160px);
+}
+
+.infoOverlay {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  max-width: 320px;
+  font-size: 14px;
+  line-height: 1.4;
+  z-index: 1000;
+}
+
+.infoTitle {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.errorMessage {
+  margin-top: 8px;
+  color: #b00020;
+}
+
+.detailOverlay {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+  border-radius: 10px;
+  max-width: 360px;
+  min-width: 280px;
+  font-size: 14px;
+  line-height: 1.5;
+  z-index: 1000;
+}
+
+.detailTitle {
+  margin-bottom: 4px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.shortDescription {
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.description {
+  margin-bottom: 6px;
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.note {
+  color: #555;
+}
+
+.loadingOverlay {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 1000;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #eff4ff;
+  color: #305fcf;
+  border: 1px solid #dce5ff;
+  border-radius: 999px;
+  font-size: 12px;
+}

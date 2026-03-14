@@ -3,9 +3,8 @@
 import type { LatLng } from "leaflet";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
+import styles from "./map.module.css";
 import { useLeafletMap } from "@/features/routes/fishing-spot-main-map/hooks/useLeafletMap";
-
-import "./map.module.css";
 
 // 実APIが未整備のため、型とモックデータをこのコンポーネント内に定義
 type FishingSpotSummary = {
@@ -75,11 +74,11 @@ export const Map = () => {
         coordinate,
         shortDescription,
       })),
-    []
+    [],
   );
   // クリックして取得したスポットの詳細
   const [selectedSpot, setSelectedSpot] = useState<FishingSpotDetail | null>(
-    null
+    null,
   );
   // 詳細取得中のスポットID（同期処理だが状態として保持）
   const [loadingSpotId, setLoadingSpotId] = useState<number | null>(null);
@@ -104,17 +103,16 @@ export const Map = () => {
 
   const handleMapClick = (latlng: LatLng) => {
     const shouldNavigate = window.confirm(
-      "Go to the input form to register a new spot?"
+      "Go to the input form to register a new spot?",
     );
 
     if (shouldNavigate) {
       router.push(
-        `/input-form?lat=${latlng.lat.toFixed(5)}&lng=${latlng.lng.toFixed(5)}`
+        `/input-form?lat=${latlng.lat.toFixed(5)}&lng=${latlng.lng.toFixed(5)}`,
       );
     }
   };
 
-  // Leafletマップの初期化とイベントコールバック設定
   const mapRef = useLeafletMap([34.655, 133.919], {
     enableMarkerPlacement: false,
     spots,
@@ -122,95 +120,37 @@ export const Map = () => {
     onMapClick: handleMapClick,
   });
 
-  // Leafletの各ペインはz-index 200-700なので、オーバーレイを上に置く
-  const overlayZ = 1000;
-
   return (
-    <div style={{ position: "relative" }}>
-      <div
-        ref={mapRef}
-        style={{ width: "100%", minHeight: "calc(100vh - 160px)" }} // keep map full height
-      />
+    <div className={styles.container}>
+      <div ref={mapRef} className={styles.map} />
 
-      <div
-        style={{
-          position: "absolute",
-          top: 12,
-          left: 12,
-          padding: "10px 12px",
-          background: "rgba(255, 255, 255, 0.95)",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
-          borderRadius: 8,
-          maxWidth: 320,
-          fontSize: 14,
-          lineHeight: 1.4,
-          zIndex: overlayZ,
-        }}
-      >
-        <div style={{ fontWeight: 700, marginBottom: 6 }}>Fishing Map</div>
+      <div className={styles.infoOverlay}>
+        <div className={styles.infoTitle}>Fishing Map</div>
         <div>Tap a pin to show detail (mock data).</div>
         <div>Tap the map to confirm navigation to the input form.</div>
         {errorMessage && (
-          <div style={{ color: "#b00020", marginTop: 8 }}>{errorMessage}</div>
+          <div className={styles.errorMessage}>{errorMessage}</div>
         )}
       </div>
 
       {selectedSpot && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: 12,
-            left: 12,
-            padding: "14px 16px",
-            background: "rgba(255, 255, 255, 0.96)",
-            boxShadow: "0 6px 16px rgba(0,0,0,0.16)",
-            borderRadius: 10,
-            maxWidth: 360,
-            minWidth: 280,
-            fontSize: 14,
-            lineHeight: 1.5,
-            zIndex: overlayZ,
-          }}
-        >
-          <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 4 }}>
-            {selectedSpot.name}
-          </div>
-          <div style={{ color: "#333", marginBottom: 8 }}>
+        <div className={styles.detailOverlay}>
+          <div className={styles.detailTitle}>{selectedSpot.name}</div>
+          <div className={styles.shortDescription}>
             {selectedSpot.shortDescription}
           </div>
-          <div style={{ marginBottom: 6 }}>{selectedSpot.description}</div>
-          <div
-            style={{
-              display: "flex",
-              gap: 8,
-              flexWrap: "wrap",
-              marginBottom: 8,
-            }}
-          >
+          <div className={styles.description}>{selectedSpot.description}</div>
+          <div className={styles.badges}>
             <Badge label={`Target: ${selectedSpot.targetFish.join(", ")}`} />
             <Badge label={`Season: ${selectedSpot.bestSeason}`} />
             <Badge label={`Depth: ${selectedSpot.waterDepth}`} />
           </div>
-          <div style={{ color: "#555" }}>{selectedSpot.note}</div>
+          <div className={styles.note}>{selectedSpot.note}</div>
         </div>
       )}
 
       {loadingSpotId && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: 12,
-            left: 12,
-            padding: "10px 12px",
-            background: "rgba(255, 255, 255, 0.9)",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
-            borderRadius: 8,
-            fontSize: 14,
-            zIndex: overlayZ,
-          }}
-        >
-          Loading pin info...
-        </div>
+        <div className={styles.loadingOverlay}>Loading pin info...</div>
       )}
     </div>
   );
@@ -218,17 +158,5 @@ export const Map = () => {
 
 // バッジ表示用の小さなコンポーネント
 const Badge = ({ label }: { label: string }) => (
-  <span
-    style={{
-      display: "inline-block",
-      padding: "4px 8px",
-      background: "#eff4ff",
-      color: "#305fcf",
-      borderRadius: 999,
-      fontSize: 12,
-      border: "1px solid #dce5ff",
-    }}
-  >
-    {label}
-  </span>
+  <span className={styles.badge}>{label}</span>
 );
