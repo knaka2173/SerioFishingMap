@@ -15,10 +15,17 @@ export default function Home() {
     router.push("fishing-spot-main-map");
   };
 
+  const handleClickMapPage = () => {
+    router.push("mock");
+  };
+
   return (
     <div>
       {/* 画面遷移の方法の標準については別途検討。ここではテストコードとして実装 */}
       <button onClick={handleClickFishList}>魚一覧へ</button>
+      <br />
+      <br />
+      <button onClick={handleClickMapPage}>APIテストページへ</button>
       <br></br>
       <button onClick={handleClickInputForm}>入力フォームへ</button>
       <button onClick={handleClickMainMap}>メインマップへ</button>
