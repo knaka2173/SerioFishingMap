@@ -7,6 +7,13 @@ export default function Home() {
   const handleClickFishList = () => {
     router.push("view-lists/fish-list");
   };
+  const handleClickInputForm = () => {
+    router.push("input-form");
+  };
+
+  const handleClickMainMap = () => {
+    router.push("fishing-spot-main-map");
+  };
 
   const handleClickMapPage = () => {
     router.push("mock");
@@ -19,6 +26,9 @@ export default function Home() {
       <br />
       <br />
       <button onClick={handleClickMapPage}>APIテストページへ</button>
+      <br></br>
+      <button onClick={handleClickInputForm}>入力フォームへ</button>
+      <button onClick={handleClickMainMap}>メインマップへ</button>
     </div>
   );
 }
