@@ -74,7 +74,7 @@ const createDefaultTouchedState = (): InputFormTouched =>
       acc[key] = false;
       return acc;
     },
-    {} as InputFormTouched
+    {} as InputFormTouched,
   );
 
 // 入力値からエラーを導出
@@ -86,7 +86,7 @@ export const validateInputForm = (values: InputFormValues): InputFormErrors => {
       if (values[field] == null) {
         errors[field] = REQUIRED_FIELD_MESSAGES[field];
       }
-    }
+    },
   );
 
   if (!values.catchDateTime) {
@@ -94,7 +94,7 @@ export const validateInputForm = (values: InputFormValues): InputFormErrors => {
   }
 
   if (values.note.trim().length > NOTE_MAX_LENGTH) {
-    errors.note = `備考は${NOTE_MAX_LENGTH}文字以内で入力してください`;
+    errors.note = `備考は${NOTE_MAX_LENGTH.toString()}文字以内で入力してください`;
   }
 
   return errors;
@@ -102,7 +102,7 @@ export const validateInputForm = (values: InputFormValues): InputFormErrors => {
 
 // 画面値をAPI DTOに変換
 const convertInputFormValuesToDto = (
-  values: InputFormValues
+  values: InputFormValues,
 ): CreateFishingResultDTO => {
   if (!values.catchDateTime) {
     throw new Error("釣果日時が未入力です");
@@ -113,7 +113,7 @@ const convertInputFormValuesToDto = (
       if (values[field] == null) {
         throw new Error(`${field} is required`);
       }
-    }
+    },
   );
 
   return {
@@ -143,11 +143,11 @@ const convertInputFormValuesToDto = (
 
 // 入力値そのもの
 export const inputFormValuesAtom = atom<InputFormValues>(
-  defaultInputFormValues
+  defaultInputFormValues,
 );
 // フォーカス済み項目を管理
 export const inputFormTouchedAtom = atom<InputFormTouched>(
-  createDefaultTouchedState()
+  createDefaultTouchedState(),
 );
 // リクエスト状態
 export const inputFormStatusAtom = atom<InputFormRequestStatus>("idle");
@@ -177,10 +177,10 @@ export const setInputFormManualErrorsAtom = atom(
   (
     _get,
     set,
-    update: InputFormErrors | ((prev: InputFormErrors) => InputFormErrors)
+    update: InputFormErrors | ((prev: InputFormErrors) => InputFormErrors),
   ) => {
     set(inputFormManualErrorsAtom, update);
-  }
+  },
 );
 
 // 任意のフィールドを更新するためのペイロード
@@ -213,20 +213,20 @@ export const updateInputFormAtom = atom(
       delete next[payload.key];
       return next;
     });
-  }
+  },
 );
 
 // 初期値と比較して編集中かどうか
 export const inputFormIsDirtyAtom = atom((get) => {
   const current = get(inputFormValuesAtom);
   return (Object.keys(current) as (keyof InputFormValues)[]).some(
-    (key) => current[key] !== defaultInputFormValues[key]
+    (key) => current[key] !== defaultInputFormValues[key],
   );
 });
 
 // 1つでもエラーがあるか
 export const inputFormHasErrorsAtom = atom((get) =>
-  Object.values(get(inputFormErrorsAtom)).some(Boolean)
+  Object.values(get(inputFormErrorsAtom)).some(Boolean),
 );
 
 // 送信可能かどうか
@@ -280,7 +280,7 @@ export const updateInputFormUiAtom = atom(
       ...get(inputFormUiAtom),
       [payload.key]: payload.value,
     });
-  }
+  },
 );
 
 // ローディング表現を開始
@@ -297,9 +297,9 @@ export const markInputFormResultAtom = atom(
     result: {
       status: Exclude<InputFormRequestStatus, "submitting">;
       message?: string;
-    }
+    },
   ) => {
     set(inputFormStatusAtom, result.status);
     set(inputFormServerMessageAtom, result.message ?? null);
-  }
+  },
 );

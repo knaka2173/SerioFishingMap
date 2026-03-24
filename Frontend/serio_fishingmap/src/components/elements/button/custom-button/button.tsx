@@ -14,7 +14,7 @@ type CustomButtonProps = {
 } & ButtonProps;
 
 const getModeStyles = (
-  mode: string
+  mode: string,
 ): { colorScheme: string; variant?: string } => {
   switch (mode) {
     case "danger":
@@ -51,7 +51,7 @@ export const CustomButton: FC<CustomButtonProps> = ({
     <Button
       spinnerPlacement="start"
       isDisabled={isDisabled}
-      colorScheme={color || colorScheme}
+      colorScheme={color ?? colorScheme}
       variant={variant}
       borderRadius="md"
       px={6}

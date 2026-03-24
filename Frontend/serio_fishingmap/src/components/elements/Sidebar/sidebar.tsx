@@ -34,8 +34,8 @@ export const Sidebar = () => {
         as="nav"
         position="fixed"
         left={0}
-        top={`${HEADER_HEIGHT}px`}
-        h={`calc(100vh - ${HEADER_HEIGHT}px)`}
+        top={`${HEADER_HEIGHT.toString()}px`}
+        h={`calc(100vh - ${HEADER_HEIGHT.toString()}px)`}
         bg="gray.800"
         color="white"
         w={sidebarWidth}
