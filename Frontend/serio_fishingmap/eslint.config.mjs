@@ -31,6 +31,7 @@ export default tseslint.config(
       "**/.*",
       "wp-content/*",
       "esbuild.config.js",
+      "eslint.config.mjs",
     ],
   },
   eslint.configs.recommended,
