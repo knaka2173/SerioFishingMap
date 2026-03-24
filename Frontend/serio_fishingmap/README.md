@@ -97,7 +97,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 npx eslint --inspect-config
 ```
 
+### eslint 実行方法
+
+```bash
+npx eslint {対象ファイル名}
+```
+
 ## chakra
+
 このプロジェクトで使用しているchakraはv3で最初動かしていた。
 だが、v2が安定番、v3はark-chakraベースの新設計らしい
 chatGPTのお言葉
