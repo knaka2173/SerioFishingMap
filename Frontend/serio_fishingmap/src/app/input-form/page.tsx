@@ -2,6 +2,7 @@
 
 import { useAtom } from "jotai";
 import { useState, type ChangeEvent } from "react";
+import styles from "./page.module.css";
 import { AddMemberButton } from "@/components/elements/button/add-member-button/add-member-button";
 import { InputFormSubmitButton } from "@/components/elements/button/input-form-submit-button/input-form-submit-button";
 import CalendarButton from "@/components/elements/calendar/calendar";
@@ -23,7 +24,6 @@ import {
   markInputFormSubmittingAtom,
   markInputFormResultAtom,
 } from "@/features/routes/input-form/stores/atom";
-import styles from "./page.module.css";
 
 type NumericField =
   | "fishingTripId"

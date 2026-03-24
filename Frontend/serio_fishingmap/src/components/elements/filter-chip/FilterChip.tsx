@@ -9,7 +9,7 @@ const CheckMarkIcon = (props: any) => (
   </Icon>
 );
 
-interface FilterChipProps {
+type FilterChipProps = {
   label: string;
   isSelected: boolean;
   onToggle: () => void;

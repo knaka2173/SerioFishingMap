@@ -8,8 +8,8 @@ export default function MapPage() {
     async function fetchData() {
       await fetch("/api/testApi")
         .then((response) => response.json())
-        .then((data) => setData(data))
-        .catch((error) => console.error("Error fetching data;", error));
+        .then((data) => { setData(data); })
+        .catch((error) => { console.error("Error fetching data;", error); });
     }
 
     fetchData();

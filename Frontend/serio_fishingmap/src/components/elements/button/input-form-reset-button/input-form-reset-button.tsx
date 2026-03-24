@@ -4,7 +4,7 @@ export const InputFormResetButton = ({ ...props }) => {
   return (
     <CustomButton
       mode="secondary"
-      label={"入力内容をリセット"}
+      label="入力内容をリセット"
       {...props}
     ></CustomButton>
   );

@@ -103,6 +103,10 @@ npx eslint --inspect-config
 npx eslint {対象ファイル名}
 ```
 
+#### オプション
+
+- --fix
+
 ## chakra
 
 このプロジェクトで使用しているchakraはv3で最初動かしていた。

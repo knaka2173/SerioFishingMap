@@ -5,7 +5,7 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 
-interface TextFieldProps {
+type TextFieldProps = {
   label: string;
   name: string;
   value: string;
