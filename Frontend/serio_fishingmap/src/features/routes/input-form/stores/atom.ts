@@ -67,6 +67,14 @@ const REQUIRED_FIELD_MESSAGES: Record<RequiredNumericField, string> = {
   memberId: "メンバーを選択してください",
 };
 
+const removeInputFormError = (
+  errors: InputFormErrors,
+  key: keyof InputFormValues,
+): InputFormErrors =>
+  Object.fromEntries(
+    Object.entries(errors).filter(([errorKey]) => errorKey !== key),
+  ) as InputFormErrors;
+
 // touched状態の初期化関数
 const createDefaultTouchedState = (): InputFormTouched =>
   (Object.keys(defaultInputFormValues) as (keyof InputFormValues)[]).reduce(
@@ -104,23 +112,33 @@ export const validateInputForm = (values: InputFormValues): InputFormErrors => {
 const convertInputFormValuesToDto = (
   values: InputFormValues,
 ): CreateFishingResultDTO => {
+  const { fishingTripId, sequenceNo, fishId, memberId } = values;
+
   if (!values.catchDateTime) {
     throw new Error("釣果日時が未入力です");
   }
 
-  (Object.keys(REQUIRED_FIELD_MESSAGES) as RequiredNumericField[]).forEach(
-    (field) => {
-      if (values[field] == null) {
-        throw new Error(`${field} is required`);
-      }
-    },
-  );
+  if (fishingTripId == null) {
+    throw new Error("fishingTripId is required");
+  }
+
+  if (sequenceNo == null) {
+    throw new Error("sequenceNo is required");
+  }
+
+  if (fishId == null) {
+    throw new Error("fishId is required");
+  }
+
+  if (memberId == null) {
+    throw new Error("memberId is required");
+  }
 
   return {
-    FishingTripID: values.fishingTripId!,
-    SequenceNo: values.sequenceNo!,
-    FishID: values.fishId!,
-    MemberID: values.memberId!,
+    FishingTripID: fishingTripId,
+    SequenceNo: sequenceNo,
+    FishID: fishId,
+    MemberID: memberId,
     FishingTypeID: values.fishingTypeId ?? 0,
     ToolID: values.toolId ?? 0,
     TackleID: values.tackleId ?? 0,
@@ -209,9 +227,7 @@ export const updateInputFormAtom = atom(
     }
 
     set(inputFormManualErrorsAtom, (prev) => {
-      const next = { ...prev };
-      delete next[payload.key];
-      return next;
+      return removeInputFormError(prev, payload.key);
     });
   },
 );
