@@ -92,7 +92,7 @@ export const Sidebar = () => {
                 aria-label={item.label}
               >
                 {/* IconComponentが存在する場合のみ描画 */}
-                {IconComponent && <Icon as={IconComponent} boxSize={5} />}
+                <Icon as={IconComponent} boxSize={5} />
                 {isExpanded && <Text>{item.label}</Text>}
               </Link>
             );
