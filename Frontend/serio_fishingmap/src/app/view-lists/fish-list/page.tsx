@@ -4,79 +4,108 @@ import { CustomCardGroup } from "@/components/elements/Card/CardGroup";
 import { FilterChipGroup } from "@/components/elements/filter-chip/FilterChipGroup";
 import { Label } from "@/components/elements/Label/Label";
 
-// TODO:テストデータa
-const cardData = [
+type FishCard = {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+};
+
+type FishCardWithObjectUrl = Omit<FishCard, "imageUrl"> & {
+  imageObjectUrl: string;
+};
+
+const cardData: FishCard[] = [
   {
     id: 1,
     title: "Card 1",
-    description: "説明1",
+    description: "説明",
     imageUrl: "https://picsum.photos/300/200?random=1",
   },
   {
     id: 2,
     title: "Card 2",
-    description: "説明2",
+    description: "説明",
     imageUrl: "https://picsum.photos/300/200?random=2",
   },
   {
     id: 3,
     title: "Card 3",
-    description: "説明3",
+    description: "説明",
     imageUrl: "https://picsum.photos/300/200?random=3",
   },
 ];
 
 export default function FishListPage() {
-  // カードグループコンポーネント
-  const [cards, setCards] = useState<any[]>([]);
+  const [cards, setCards] = useState<FishCardWithObjectUrl[]>([]);
+  const [data, setData] = useState<unknown>(null);
 
   useEffect(() => {
-    const loadImages = async () => {
-      const withBlobs = await Promise.all(
-        cardData.map(async (item) => {
-          const res = await fetch(item.imageUrl);
-          const blob = await res.blob();
-          const objectUrl = URL.createObjectURL(blob);
-          return { ...item, imageObjectUrl: objectUrl };
-        })
-      );
-      setCards(withBlobs);
+    const objectUrls: string[] = [];
+    let isMounted = true;
+
+    const loadImages = async (): Promise<void> => {
+      try {
+        const withBlobs = await Promise.all(
+          cardData.map(async (item) => {
+            const res = await fetch(item.imageUrl);
+            const blob = await res.blob();
+            const objectUrl = URL.createObjectURL(blob);
+            objectUrls.push(objectUrl);
+
+            return {
+              id: item.id,
+              title: item.title,
+              description: item.description,
+              imageObjectUrl: objectUrl,
+            };
+          })
+        );
+
+        if (isMounted) {
+          setCards(withBlobs);
+          return;
+        }
+
+        objectUrls.forEach((objectUrl) => {
+          URL.revokeObjectURL(objectUrl);
+        });
+      } catch (error: unknown) {
+        console.error("Error loading card images:", error);
+      }
     };
 
-    loadImages();
+    void loadImages();
 
     return () => {
-      cards.forEach((card) => {
-        if (card.imageObjectUrl) URL.revokeObjectURL(card.imageObjectUrl);
+      isMounted = false;
+      objectUrls.forEach((objectUrl) => {
+        URL.revokeObjectURL(objectUrl);
       });
     };
   }, []);
 
-  // GET API
-  const [data, setData] = useState(null);
-
   useEffect(() => {
-    async function fetchData() {
-      await fetch("/api/testApi")
-        .then((response) => response.json())
-        .then((data) => {
-          setData(data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data;", error);
-        });
+    async function fetchData(): Promise<void> {
+      try {
+        const response = await fetch("/api/testApi");
+        const responseData: unknown = await response.json();
+        setData(responseData);
+      } catch (error: unknown) {
+        console.error("Error fetching data;", error);
+      }
     }
 
-    fetchData();
+    void fetchData();
   }, []);
 
-  if (!data) {
+  if (data === null) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <Label text="魚一覧" size="title" />
+      <Label text="一覧表示" size="title" />
       <FilterChipGroup
         options={["React", "Next.js", "Chakra UI", "TypeScript"]}
         defaultSelected={["React"]}
