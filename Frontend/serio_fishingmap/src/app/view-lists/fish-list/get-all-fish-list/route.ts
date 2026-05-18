@@ -1,12 +1,15 @@
+// src/app/api/FishAllViews/route.ts
 import { NextResponse } from "next/server";
-import { getAllFishList } from "@/features/fish-list/get-all-fish-list/route";
-/**
- * GET /api/FishAllViews
- * すべての釣果記録を取得するAPI
- */
+import { fishRepository } from "@/features/common/repositories/fish.repository";
+import type { CreateFishDTO } from "@/types/dto/fish-dto";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
-    const records = await getAllFishList();
+    console.log("DYNAMODB_FISH_TABLE_NAME =", process.env.DYNAMODB_FISH_TABLE_NAME);
+    const records = await fishRepository.getAll();
     return NextResponse.json(records, { status: 200 });
   } catch (error) {
     console.error("GET /api/FishAllViews Error:", error);
