@@ -31,6 +31,8 @@ export default tseslint.config(
       "**/.*",
       "wp-content/*",
       "esbuild.config.js",
+      "eslint.config.mjs",
+      "prettierrc.mjs",
     ],
   },
   eslint.configs.recommended,

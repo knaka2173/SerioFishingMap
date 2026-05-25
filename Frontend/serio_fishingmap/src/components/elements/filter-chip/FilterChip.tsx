@@ -1,6 +1,7 @@
-import { Tag, TagLabel, HStack, Icon } from "@chakra-ui/react";
+import { HStack, Icon, Tag, TagLabel } from "@chakra-ui/react";
+import type { IconProps } from "@chakra-ui/react";
 
-const CheckMarkIcon = (props: any) => (
+const CheckMarkIcon = (props: IconProps) => (
   <Icon viewBox="0 0 20 20" {...props}>
     <path
       fill="currentColor"
@@ -9,11 +10,11 @@ const CheckMarkIcon = (props: any) => (
   </Icon>
 );
 
-interface FilterChipProps {
+type FilterChipProps = {
   label: string;
   isSelected: boolean;
   onToggle: () => void;
-}
+};
 
 export const FilterChip: React.FC<FilterChipProps> = ({
   label,

@@ -12,7 +12,7 @@ import { HStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { FilterChip } from "./FilterChip";
 
-interface FilterChipGroupProps {
+type FilterChipGroupProps = {
   options: string[]; // 表示するチップのラベル一覧
   defaultSelected?: string[]; // 最初に選択されているチップ
   onChange?: (selected: string[]) => void; // 選択状態の変更を通知
@@ -41,7 +41,7 @@ export const FilterChipGroup = ({
           key={label}
           label={label}
           isSelected={selected.includes(label)}
-          onToggle={() => handleToggle(label)}
+          onToggle={() => { handleToggle(label); }}
         />
       ))}
     </HStack>

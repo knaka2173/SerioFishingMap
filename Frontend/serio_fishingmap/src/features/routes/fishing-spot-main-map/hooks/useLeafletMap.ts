@@ -116,9 +116,7 @@ const useLeafletMap = (
     const map = mapInstanceRef.current;
     if (!map) return;
 
-    if (!markersLayerRef.current) {
-      markersLayerRef.current = L.layerGroup().addTo(map);
-    }
+    markersLayerRef.current ??= L.layerGroup().addTo(map);
 
     const layer = markersLayerRef.current;
     layer.clearLayers();

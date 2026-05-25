@@ -2,6 +2,7 @@
 
 import { useAtom } from "jotai";
 import { useState, type ChangeEvent } from "react";
+import styles from "./page.module.css";
 import { AddMemberButton } from "@/components/elements/button/add-member-button/add-member-button";
 import { InputFormSubmitButton } from "@/components/elements/button/input-form-submit-button/input-form-submit-button";
 import CalendarButton from "@/components/elements/calendar/calendar";
@@ -23,7 +24,6 @@ import {
   markInputFormSubmittingAtom,
   markInputFormResultAtom,
 } from "@/features/routes/input-form/stores/atom";
-import styles from "./page.module.css";
 
 type NumericField =
   | "fishingTripId"
@@ -643,7 +643,7 @@ export default function FormPage() {
             placeholder="スナップ・シンカー・補助具など"
           />
           <TextAreaInput
-            label={`釣り場の詳細メモ（${formValues.note.length}/500文字）`}
+            label={`釣り場の詳細メモ（${formValues.note.length.toString()}/500文字）`}
             value={formValues.note}
             onChange={handleStringChange("note")}
             placeholder="釣り場の状況・気づきを記録"
@@ -687,10 +687,14 @@ export default function FormPage() {
         <div className={styles.statusPanel}>
           <p className={styles.statusText}>ステータス: {status}</p>
           {serverMessage && (
-            <p className={styles.statusMessage}>サーバーメッセージ: {serverMessage}</p>
+            <p className={styles.statusMessage}>
+              サーバーメッセージ: {serverMessage}
+            </p>
           )}
         </div>
-        <pre className={styles.debug}>{JSON.stringify(formValues, null, 2)}</pre>
+        <pre className={styles.debug}>
+          {JSON.stringify(formValues, null, 2)}
+        </pre>
       </footer>
     </div>
   );

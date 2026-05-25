@@ -34,8 +34,8 @@ export const Sidebar = () => {
         as="nav"
         position="fixed"
         left={0}
-        top={`${HEADER_HEIGHT}px`}
-        h={`calc(100vh - ${HEADER_HEIGHT}px)`}
+        top={`${HEADER_HEIGHT.toString()}px`}
+        h={`calc(100vh - ${HEADER_HEIGHT.toString()}px)`}
         bg="gray.800"
         color="white"
         w={sidebarWidth}
@@ -92,7 +92,7 @@ export const Sidebar = () => {
                 aria-label={item.label}
               >
                 {/* IconComponentが存在する場合のみ描画 */}
-                {IconComponent && <Icon as={IconComponent} boxSize={5} />}
+                <Icon as={IconComponent} boxSize={5} />
                 {isExpanded && <Text>{item.label}</Text>}
               </Link>
             );
