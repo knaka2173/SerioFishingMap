@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:test": "cross-env NEXT_PUBLIC_USE_MOCK=true next dev",
     "build": "next build",
     "start": "next start",
     "format": "prettier --check \"**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc,yml,yaml}\"",
@@ -22,6 +23,7 @@
     "@typescript-eslint/eslint-plugin": "^8.28.0",
     "@typescript-eslint/parser": "^8.28.0",
     "classnames": "^2.5.1",
+    "cross-env": "^10.1.0",
     "date-fns": "^4.1.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-import": "^2.31.0",
