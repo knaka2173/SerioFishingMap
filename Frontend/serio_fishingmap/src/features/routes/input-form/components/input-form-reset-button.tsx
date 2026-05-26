@@ -9,7 +9,7 @@ export const InputFormResetButton = () => {
   const [, resetForm] = useAtom(resetInputFormAtom);
 
   const handleReset = useCallback(() => {
-    resetForm(null);
+    resetForm();
   }, [resetForm]);
 
   return <ResetButton type="button" onClick={handleReset} />;

@@ -15,7 +15,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 export default function CalendarButton() {
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date | null>(new Date());
 
   return (
     <Popover>
@@ -27,7 +27,16 @@ export default function CalendarButton() {
         <PopoverCloseButton />
         <PopoverBody>
           <Box>
-            <Calendar onChange={setDate} value={date} locale="ja-JP" />
+            <Calendar
+              onChange={(value) => {
+                if (value instanceof Date || value === null) {
+                  setDate(value);
+                }
+              }}
+              value={date}
+              locale="ja-JP"
+              selectRange={false}
+            />
           </Box>
         </PopoverBody>
       </PopoverContent>
