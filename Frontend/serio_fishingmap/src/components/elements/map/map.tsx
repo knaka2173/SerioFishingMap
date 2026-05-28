@@ -4,6 +4,7 @@ import type { LatLng } from "leaflet";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import styles from "./map.module.css";
+import { isMock } from "@/config/env";
 import { useLeafletMap } from "@/features/routes/fishing-spot-main-map/hooks/useLeafletMap";
 
 // 実APIが未整備のため、型とモックデータをこのコンポーネント内に定義
@@ -22,7 +23,7 @@ type FishingSpotDetail = FishingSpotSummary & {
   note: string;
 };
 
-// 地図上に表示する仮のスポット一覧
+// 地図上に表示する仮のスポット一覧を取得
 const MOCK_SPOTS: FishingSpotDetail[] = [
   {
     id: 1,
@@ -62,6 +63,11 @@ const MOCK_SPOTS: FishingSpotDetail[] = [
     note: "干潮時にウェーディングルートを確認。船の往来に注意。",
   },
 ];
+
+if (isMock) {
+  // モック処理
+  console.log("モック動作");
+}
 
 export const Map = () => {
   const router = useRouter();
