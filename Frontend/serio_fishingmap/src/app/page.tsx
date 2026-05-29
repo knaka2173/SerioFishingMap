@@ -19,6 +19,10 @@ export default function Home() {
     router.push("mock");
   };
 
+  const handleClickFishDetailPage = () => {
+    router.push("details/fish-details");
+  };
+
   return (
     <div>
       {/* 画面遷移の方法の標準については別途検討。ここではテストコードとして実装 */}
@@ -29,6 +33,8 @@ export default function Home() {
       <br></br>
       <button onClick={handleClickInputForm}>入力フォームへ</button>
       <button onClick={handleClickMainMap}>メインマップへ</button>
+      <br />
+      <button onClick={handleClickFishDetailPage}>魚詳細へ</button>
     </div>
   );
 }
