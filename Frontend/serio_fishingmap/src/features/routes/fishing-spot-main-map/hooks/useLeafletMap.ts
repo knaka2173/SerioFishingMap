@@ -52,7 +52,7 @@ const useLeafletMap = (
     spots = [],
     onSpotClick,
     onMapClick,
-  }: UseLeafletMapOptions = {}
+  }: UseLeafletMapOptions = {},
 ) => {
   /** マップを描画するDOM要素の参照 */
   const mapRef = useRef<HTMLDivElement>(null);
@@ -63,27 +63,29 @@ const useLeafletMap = (
 
   useEffect(() => {
     if (typeof window === "undefined" || !mapRef.current) return;
-    // すでに初期化済みなら再作成しない
+    // すでに初期化済みなら位置調整だけ行い、マップの新規作成処理をスキップする
     if (mapInstanceRef.current) {
       mapInstanceRef.current.setView(center);
-      return;
+    } else {
+      // 指定中心座標・ズームでマップインスタンスを作成
+      const map = L.map(mapRef.current).setView(center, 13);
+      mapInstanceRef.current = map;
+
+      // OSMタイルを読み込み
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
     }
-
-    // 指定中心座標・ズームでマップインスタンスを作成
-    const map = L.map(mapRef.current).setView(center, 13);
-    mapInstanceRef.current = map;
-
-    // OSMタイルを読み込み
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
 
     // アンマウント時にイベント解除とインスタンス破棄
     return () => {
       markersLayerRef.current?.clearLayers();
-      map.remove();
-      mapInstanceRef.current = null;
+      // mapInstanceRef が存在する場合のみ破棄を実行
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
       markersLayerRef.current = null;
     };
   }, [center]);
@@ -101,15 +103,17 @@ const useLeafletMap = (
         marker
           .bindPopup(
             `Lat: ${event.latlng.lat.toFixed(5)}, Lng: ${event.latlng.lng.toFixed(
-              5
-            )}`
+              5,
+            )}`,
           )
           .openPopup();
       }
     };
 
     map.on("click", handleClick);
-    return () => map.off("click", handleClick);
+    return () => {
+      map.off("click", handleClick);
+    };
   }, [enableMarkerPlacement, onMapClick]);
 
   useEffect(() => {

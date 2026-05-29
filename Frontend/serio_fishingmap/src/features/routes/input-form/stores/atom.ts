@@ -135,6 +135,7 @@ const convertInputFormValuesToDto = (
   }
 
   return {
+    FishingResultID: 0,
     FishingTripID: fishingTripId,
     SequenceNo: sequenceNo,
     FishID: fishId,
