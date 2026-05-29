@@ -20,6 +20,12 @@ pnpm dev
 bun dev
 ```
 
+動作確認（モックデータを使用）する場合
+
+```bash
+npm run dev:test
+```
+
 [http://localhost:3000](http://localhost:3000)をブラウザで開いて動作を確認します。
 
 このプロジェクトでは、 [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) を使用して、Vercel の新しいフォント ファミリである [Geist](https://vercel.com/font) を自動的に最適化して読み込みます。
