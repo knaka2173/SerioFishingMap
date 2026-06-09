@@ -1,6 +1,5 @@
 // 釣果のデータ型を定義
 export type FishingResult = {
-  FishingResultID: number; // 釣果ID
   FishingTripID: number; // 釣行ID
   SequenceNo: number; // 連番
   FishID: number; // 魚ID
@@ -22,6 +21,8 @@ export type FishingResult = {
   Note: string; // 備考
   Size: number; // サイズ 列挙型で定義
   IsReleased: boolean; // リリースの有無
+  createdAt: string;
+  FishingResultID: number;
 };
 
 // 新規作成時にAPIが受け取るデータの型
