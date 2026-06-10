@@ -9,21 +9,24 @@ export type FishingResult = {
   TackleID: number; // 仕掛けID
   BaitID: number; // 餌ID
   WaterQualityID: number; // 水質ID
-  CatchDateTime: Date; // 釣れた時間
-  TideCondition: number; // 潮の状態 列挙型で定義
-  Weather: number; // 天気 列挙型で定義
-  WaterTemperature: number; // 水温 列挙型で定義
-  WindSpeed: number; // 風速 列挙型で定義
-  WindDirection: number; // 風向き 列挙型で定義
-  WaveHeight: number; // 波の高さ 列挙型で定義
-  Depth: number; // 深さ 列挙型で定義
-  HitPattern: number; // ヒットパターン 列挙型で定義
+  CatchDateTime: string; // 釣れた時間
+  TideCondition: number; // 潮の状態
+  Weather: number; // 天気
+  WaterTemperature: number; // 水温
+  WindSpeed: number; // 風速
+  WindDirection: number; // 風向き
+  WaveHeight: number; // 波の高さ
+  Depth: number; // 深さ
+  HitPattern: number; // ヒットパターン
   Note: string; // 備考
-  Size: number; // サイズ 列挙型で定義
+  Size: number; // サイズ
   IsReleased: boolean; // リリースの有無
   createdAt: string;
   FishingResultID: number;
 };
 
 // 新規作成時にAPIが受け取るデータの型
-export type CreateFishingResultDTO = Omit<FishingResult, "id" | "createdAt">;
+export type CreateFishingResultDTO = Omit<
+  FishingResult,
+  "FishingResultID" | "createdAt"
+>;
