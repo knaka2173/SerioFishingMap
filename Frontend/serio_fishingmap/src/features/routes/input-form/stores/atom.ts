@@ -69,10 +69,10 @@ const REQUIRED_FIELD_MESSAGES: Record<RequiredNumericField, string> = {
 
 const removeInputFormError = (
   errors: InputFormErrors,
-  key: keyof InputFormValues,
+  key: keyof InputFormValues
 ): InputFormErrors =>
   Object.fromEntries(
-    Object.entries(errors).filter(([errorKey]) => errorKey !== key),
+    Object.entries(errors).filter(([errorKey]) => errorKey !== key)
   ) as InputFormErrors;
 
 // touched状態の初期化関数
@@ -82,7 +82,7 @@ const createDefaultTouchedState = (): InputFormTouched =>
       acc[key] = false;
       return acc;
     },
-    {} as InputFormTouched,
+    {} as InputFormTouched
   );
 
 // 入力値からエラーを導出
@@ -94,7 +94,7 @@ export const validateInputForm = (values: InputFormValues): InputFormErrors => {
       if (values[field] == null) {
         errors[field] = REQUIRED_FIELD_MESSAGES[field];
       }
-    },
+    }
   );
 
   if (!values.catchDateTime) {
@@ -110,7 +110,7 @@ export const validateInputForm = (values: InputFormValues): InputFormErrors => {
 
 // 画面値をAPI DTOに変換
 const convertInputFormValuesToDto = (
-  values: InputFormValues,
+  values: InputFormValues
 ): CreateFishingResultDTO => {
   const { fishingTripId, sequenceNo, fishId, memberId } = values;
 
@@ -135,7 +135,6 @@ const convertInputFormValuesToDto = (
   }
 
   return {
-    FishingResultID: 0,
     FishingTripID: fishingTripId,
     SequenceNo: sequenceNo,
     FishID: fishId,
@@ -145,7 +144,7 @@ const convertInputFormValuesToDto = (
     TackleID: values.tackleId ?? 0,
     BaitID: values.baitId ?? 0,
     WaterQualityID: values.waterQualityId ?? 0,
-    CatchDateTime: new Date(values.catchDateTime),
+    CatchDateTime: new Date(values.catchDateTime).toISOString(),
     TideCondition: values.tideCondition ?? 0,
     Weather: values.weather ?? 0,
     WaterTemperature: values.waterTemperature ?? 0,
@@ -162,11 +161,11 @@ const convertInputFormValuesToDto = (
 
 // 入力値そのもの
 export const inputFormValuesAtom = atom<InputFormValues>(
-  defaultInputFormValues,
+  defaultInputFormValues
 );
 // フォーカス済み項目を管理
 export const inputFormTouchedAtom = atom<InputFormTouched>(
-  createDefaultTouchedState(),
+  createDefaultTouchedState()
 );
 // リクエスト状態
 export const inputFormStatusAtom = atom<InputFormRequestStatus>("idle");
@@ -196,10 +195,10 @@ export const setInputFormManualErrorsAtom = atom(
   (
     _get,
     set,
-    update: InputFormErrors | ((prev: InputFormErrors) => InputFormErrors),
+    update: InputFormErrors | ((prev: InputFormErrors) => InputFormErrors)
   ) => {
     set(inputFormManualErrorsAtom, update);
-  },
+  }
 );
 
 // 任意のフィールドを更新するためのペイロード
@@ -230,20 +229,20 @@ export const updateInputFormAtom = atom(
     set(inputFormManualErrorsAtom, (prev) => {
       return removeInputFormError(prev, payload.key);
     });
-  },
+  }
 );
 
 // 初期値と比較して編集中かどうか
 export const inputFormIsDirtyAtom = atom((get) => {
   const current = get(inputFormValuesAtom);
   return (Object.keys(current) as (keyof InputFormValues)[]).some(
-    (key) => current[key] !== defaultInputFormValues[key],
+    (key) => current[key] !== defaultInputFormValues[key]
   );
 });
 
 // 1つでもエラーがあるか
 export const inputFormHasErrorsAtom = atom((get) =>
-  Object.values(get(inputFormErrorsAtom)).some(Boolean),
+  Object.values(get(inputFormErrorsAtom)).some(Boolean)
 );
 
 // 送信可能かどうか
@@ -297,7 +296,7 @@ export const updateInputFormUiAtom = atom(
       ...get(inputFormUiAtom),
       [payload.key]: payload.value,
     });
-  },
+  }
 );
 
 // ローディング表現を開始
@@ -314,9 +313,9 @@ export const markInputFormResultAtom = atom(
     result: {
       status: Exclude<InputFormRequestStatus, "submitting">;
       message?: string;
-    },
+    }
   ) => {
     set(inputFormStatusAtom, result.status);
     set(inputFormServerMessageAtom, result.message ?? null);
-  },
+  }
 );
