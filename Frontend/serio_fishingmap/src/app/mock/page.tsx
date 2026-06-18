@@ -2,12 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-type Fish = {
-  id: string;
-  fishName: string;
-  locationName: string;
-};
+import type { CreateFishDTO, Fish } from "@/types/dto/fish-dto";
 
 const isFish = (value: unknown): value is Fish => {
   if (typeof value !== "object" || value === null) {
@@ -17,9 +12,11 @@ const isFish = (value: unknown): value is Fish => {
   const fish = value as Record<string, unknown>;
 
   return (
-    typeof fish.id === "string" &&
+    typeof fish.fishID === "number" &&
     typeof fish.fishName === "string" &&
-    typeof fish.locationName === "string"
+    typeof fish.fishOrder === "string" &&
+    typeof fish.category === "string" &&
+    typeof fish.createdAt === "string"
   );
 };
 
@@ -29,7 +26,9 @@ const isFishList = (value: unknown): value is Fish[] => {
 
 export default function MapPage() {
   const router = useRouter();
+
   const [fishList, setFishList] = useState<Fish[]>([]);
+  const [message, setMessage] = useState<string>("");
 
   const handleBackHome = () => {
     router.push("/");
@@ -38,48 +37,74 @@ export default function MapPage() {
   // 魚読み込みAPI（GET）
   const handleLoadFish = async () => {
     try {
+      setMessage("");
+
       const res = await fetch("/view-lists/fish-list/get-all-fish-list");
 
+      console.log("取得API status:", res.status);
+
+      const fishData: unknown = await res.json();
+
+      console.log("取得API response:", fishData);
+
       if (!res.ok) {
-        throw new Error(`魚一覧の取得に失敗しました: ${String(res.status)}`);
+        setMessage(`魚一覧の取得に失敗しました: ${String(res.status)}`);
+        return;
       }
 
-      const data: unknown = await res.json();
-
-      if (!isFishList(data)) {
-        throw new Error("魚一覧APIのレスポンス形式が不正です");
+      if (!isFishList(fishData)) {
+        setMessage("魚一覧APIのレスポンス形式が不正です");
+        return;
       }
 
-      console.log("魚一覧:", data);
-      setFishList(data);
+      setFishList(fishData);
+      setMessage("魚一覧を取得しました");
     } catch (err) {
       console.error("魚取得エラー", err);
+      setMessage("魚一覧の取得中にエラーが発生しました");
     }
   };
 
   // 魚登録API（POST）
   const handleAddFish = async () => {
     try {
+      setMessage("");
+
+      const requestBody: CreateFishDTO = {
+        fishID: 1,
+        fishName: "ブラックバス",
+        fishOrder: "スズキ目",
+        category: "淡水魚",
+      };
+
       const res = await fetch("/api/FishAllViews/add-fishs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          fishName: "ブラックバス",
-          locationName: "児島湖",
-          caughtDate: "2026-03-18",
-        }),
+        body: JSON.stringify(requestBody),
       });
 
+      console.log("登録API status:", res.status);
+
+      const createdFish: unknown = await res.json();
+
+      console.log("登録API response:", createdFish);
+
       if (!res.ok) {
-        throw new Error(`魚登録に失敗しました: ${String(res.status)}`);
+        setMessage(`魚登録に失敗しました: ${String(res.status)}`);
+        return;
       }
 
-      const data: unknown = await res.json();
-      console.log("登録結果:", data);
+      if (!isFish(createdFish)) {
+        setMessage("魚登録APIのレスポンス形式が不正です");
+        return;
+      }
+
+      setMessage("魚データを登録しました");
     } catch (err) {
       console.error("登録エラー", err);
+      setMessage("魚登録中にエラーが発生しました");
     }
   };
 
@@ -102,12 +127,14 @@ export default function MapPage() {
       <br />
       <br />
 
+      {message && <p>{message}</p>}
+
       <h3>魚一覧</h3>
 
       <ul>
         {fishList.map((fish) => (
-          <li key={fish.id}>
-            {fish.fishName} - {fish.locationName}
+          <li key={fish.fishID}>
+            {fish.fishID} - {fish.fishName} - {fish.fishOrder} - {fish.category}
           </li>
         ))}
       </ul>
