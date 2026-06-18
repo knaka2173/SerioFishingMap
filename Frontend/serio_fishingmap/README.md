@@ -20,6 +20,12 @@ pnpm dev
 bun dev
 ```
 
+動作確認（モックデータを使用）する場合
+
+```bash
+npm run dev:test
+```
+
 [http://localhost:3000](http://localhost:3000)をブラウザで開いて動作を確認します。
 
 このプロジェクトでは、 [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) を使用して、Vercel の新しいフォント ファミリである [Geist](https://vercel.com/font) を自動的に最適化して読み込みます。
@@ -97,7 +103,18 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 npx eslint --inspect-config
 ```
 
+### eslint 実行方法
+
+```bash
+npx eslint {対象ファイル名}
+```
+
+#### オプション
+
+- --fix
+
 ## chakra
+
 このプロジェクトで使用しているchakraはv3で最初動かしていた。
 だが、v2が安定番、v3はark-chakraベースの新設計らしい
 chatGPTのお言葉

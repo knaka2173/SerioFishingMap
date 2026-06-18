@@ -1,52 +1,25 @@
-import { ScanCommand, PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
-import { ddbDocClient } from "@/lib/dynamodb";
+// src/features/common/repositories/fish.repository.ts
 import { randomUUID } from "crypto";
-import { FishRecord, CreateFishRecordDTO } from "../../../types/fish-record-dto"; // 分離した型定義をインポート
+import { BaseRepository } from "./base-repository";
+import { ddbDocClient } from "@/lib/dynamodb";
+import type { Fish, CreateFishDTO } from "@/types/dto/fish-dto";
 
-const TABLE_NAME = process.env.DYNAMODB_FISH_TABLE_NAME;
+type FishKey = { id: string };
 
-class FishRepository {
-  /**
-   * すべての魚情報を取得する
-   */
-  async getAll(): Promise<FishRecord[]> {
-    const command = new ScanCommand({ TableName: TABLE_NAME });
-    const response = await ddbDocClient.send(command);
-    return (response.Items as FishRecord[]) || [];
-  }
+const getFishTableName = () => {
+  const name = process.env.DYNAMODB_FISH_TABLE_NAME;
+  if (!name) throw new Error("DYNAMODB_FISH_TABLE_NAME is not set");
+  return name;
+};
 
-  /**
-   * IDで単一の魚情報を取得する
-   */
-  async getById(id: string): Promise<FishRecord | undefined> {
-    const command = new GetCommand({
-      TableName: TABLE_NAME,
-      Key: { id },
-    });
-    const response = await ddbDocClient.send(command);
-    return response.Item as FishRecord | undefined;
-  }
-
-  /**
-   * 新しい魚情報を作成する
-   */
-  async create(recordData: CreateFishRecordDTO): Promise<FishRecord> {
-    const newItem: FishRecord = {
-      id: randomUUID(),
-      ...recordData,
+export const fishRepository: BaseRepository<Fish, CreateFishDTO, FishKey> =
+  new BaseRepository<Fish, CreateFishDTO, FishKey>(
+    ddbDocClient,
+    getFishTableName,
+    () => ({ id: randomUUID() }),
+    (dto, key) => ({
+      ...key,
+      ...dto,
       createdAt: new Date().toISOString(),
-    };
-
-    const command = new PutCommand({
-      TableName: TABLE_NAME,
-      Item: newItem,
-    });
-
-    await ddbDocClient.send(command);
-    return newItem;
-  }
-}
-
-// FishRepositoryのインスタンスを作成してエクスポート
-// これにより、他のファイルからは new FishRepository() せずにすぐ使える
-export const fishRepository = new FishRepository();
+    })
+  );

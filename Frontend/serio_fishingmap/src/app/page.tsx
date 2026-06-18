@@ -1,5 +1,4 @@
 "use client";
-import { Sidebar } from "@/components/elements/Sidebar/sidebar";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -8,18 +7,28 @@ export default function Home() {
   const handleClickFishList = () => {
     router.push("view-lists/fish-list");
   };
+  const handleClickInputForm = () => {
+    router.push("input-form");
+  };
+
+  const handleClickMainMap = () => {
+    router.push("fishing-spot-main-map");
+  };
+
+  const handleClickMapPage = () => {
+    router.push("mock");
+  };
 
   return (
-    <span>
+    <div>
       {/* 画面遷移の方法の標準については別途検討。ここではテストコードとして実装 */}
       <button onClick={handleClickFishList}>魚一覧へ</button>
-
-      <Sidebar></Sidebar>
-      {/* TODO:Sidebarコンポーネントの修正
-      ・ヘッダーコンポーネントより開閉可能とする。
-        ・コンポーネント表示時はメインコンテンツと横並びにできることを確認する
-      ・アプリ名は不要
-      */}
-    </span>
+      <br />
+      <br />
+      <button onClick={handleClickMapPage}>APIテストページへ</button>
+      <br></br>
+      <button onClick={handleClickInputForm}>入力フォームへ</button>
+      <button onClick={handleClickMainMap}>メインマップへ</button>
+    </div>
   );
 }

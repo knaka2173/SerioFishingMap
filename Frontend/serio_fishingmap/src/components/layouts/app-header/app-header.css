@@ -1,32 +1,87 @@
-.storybook-header {
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 15px 20px;
-  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
-.storybook-header svg {
-  display: inline-block;
-  vertical-align: top;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.storybook-header h1 {
-  display: inline-block;
-  vertical-align: top;
-  margin: 6px 0 6px 10px;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1;
+.brand__icon {
+  width: 44px;
+  height: 44px;
+  background: url("/fishing_map.png") center/cover no-repeat;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
-.storybook-header button + button {
-  margin-left: 10px;
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.storybook-header .welcome {
-  margin-right: 10px;
-  color: #333;
+.brand__title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: 0.02em;
+}
+
+.brand__subtitle {
+  font-size: 12px;
+  color: #475569;
+}
+
+.header-user {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 8px 10px;
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 10px;
+  color: #0f172a;
+}
+
+.header-user__welcome {
+  font-size: 12px;
+  color: #475569;
+}
+
+.header-user__name {
   font-size: 14px;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    padding: 12px 14px;
+  }
+
+  .brand__title {
+    font-size: 16px;
+  }
+
+  .brand__subtitle {
+    font-size: 11px;
+  }
+
+  .brand__icon {
+    width: 40px;
+    height: 40px;
+  }
 }

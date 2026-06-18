@@ -1,23 +1,22 @@
 "use client";
-import { useEffect, useState } from "react";
 
 export default function MapPage() {
-  const [data, setData] = useState(null);
+  //   const [data, setData] = useState(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      await fetch("/api/testApi")
-        .then((response) => response.json())
-        .then((data) => setData(data))
-        .catch((error) => console.error("Error fetching data;", error));
-    }
+  //   useEffect(() => {
+  //     async function fetchData() {
+  //       await fetch("/api/testApi")
+  //         .then((response) => response.json())
+  //         .then((data) => { setData(data); })
+  //         .catch((error) => { console.error("Error fetching data;", error); });
+  //     }
 
-    fetchData();
-  }, []);
+  //     fetchData();
+  //   }, []);
 
-  if (!data) {
-    return <div>Loading...</div>;
-  }
+  //   if (!data) {
+  //     return <div>Loading...</div>;
+  //   }
 
   return (
     <div>
